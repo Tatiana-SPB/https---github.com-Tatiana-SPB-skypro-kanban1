@@ -1,13 +1,13 @@
 import "./App.css";
-import { Header } from "./components/HeaderComponents";
-import { Main } from "./components/MainComponents";
-import { PopBrowse } from "./components/popups/PopBrowseComponents";
-import { PopExit } from "./components/popups/PopExitComponents";
-import { PopNewCard } from "./components/popups/PopNewCardComponents";
+import { Header } from "./components/Header";
+import { Main } from "./components/Main";
+import { PopBrowse } from "./components/popups/PopBrowse";
+import { PopExit } from "./components/popups/PopExit";
+import { PopNewCard } from "./components/popups/PopNewCard";
 
 function App() {
   return (
-    <div class="wrapper">
+    <div className="wrapper">
       <PopExit />
 
       <PopNewCard />

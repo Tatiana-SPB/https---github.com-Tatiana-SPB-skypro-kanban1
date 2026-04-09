@@ -28,15 +28,15 @@ export function Header() {
             <button className="header__btn-main-new _hover01" id="btnMainNew">
               <a href="#popNewCard">Создать новую задачу</a>
             </button>
-            <a
-              href="#user-set-target"
+            <button
+              type="button"
               onClick={clickPopUser}
               className="header__user _hover02"
               aria-haspopup="true"
               aria-expanded={isPopUser ? "true" : "false"}
             >
               Ivan Ivanov
-            </a>
+            </button>
 
             <PopUser isPopUser={isPopUser} />
           </nav>

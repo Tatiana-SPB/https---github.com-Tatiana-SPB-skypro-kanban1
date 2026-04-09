@@ -1,10 +1,7 @@
-import { cardList } from "../data";
 import { CardsItem } from "./CardsItem";
 
-export function Column({ status }) {
-  const filteredCards = cardList.filter((card) => card.status === status);
-
-  if (filteredCards.length > 0) {
+export function Column({ status, cards }) {
+  if (cards.length > 0) {
     return (
       <div className="main__column column">
         <div className="column__title">
@@ -12,7 +9,9 @@ export function Column({ status }) {
         </div>
         <div className="cards">
           <div>
-            <CardsItem status={status} />
+            {cards.map((cardEl) => (
+              <CardsItem key={cardEl.id} card={cardEl} />
+            ))}
           </div>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { CardsItem } from "./CardsItem";
+import { CardsItem } from "./CardsItem.styled.jsx";
 
 export function Column({ status, cards }) {
   if (cards.length > 0) {

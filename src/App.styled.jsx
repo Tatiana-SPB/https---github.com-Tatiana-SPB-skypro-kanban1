@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import { Header } from "./components/Header";
-import { Main } from "./components/Main";
 import { PopBrowse } from "./components/popups/PopBrowse";
 import { PopExit } from "./components/popups/PopExit";
 import { PopNewCard } from "./components/popups/PopNewCard";
-import SMain from "./components/Main.styled.jsx";
+import { SMain } from "./components/Main.styled.jsx";
+import { Swrapper } from "./App.styled.js";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -13,11 +13,11 @@ function App() {
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
-    }, 3000);
+    }, 1000);
   }, [loading]);
 
   return (
-    <div className="wrapper">
+    <Swrapper>
       <PopExit />
 
       <PopNewCard />
@@ -27,7 +27,7 @@ function App() {
       <Header />
 
       <SMain loading={loading} />
-    </div>
+    </Swrapper>
   );
 }
 

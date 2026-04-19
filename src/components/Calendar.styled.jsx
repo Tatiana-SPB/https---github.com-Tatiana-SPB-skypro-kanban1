@@ -1,0 +1,60 @@
+import {
+  Scalendar__cell,
+  Scalendar__cells,
+  Scalendar__content,
+  Scalendar__days_name,
+  Scalendar__days_names,
+} from "./Calendar.styled.js";
+
+export function Calendar() {
+  return (
+    <Scalendar__content>
+      <Scalendar__days_names>
+        <Scalendar__days_name>пн</Scalendar__days_name>
+        <Scalendar__days_name>вт</Scalendar__days_name>
+        <Scalendar__days_name>ср</Scalendar__days_name>
+        <Scalendar__days_name>чт</Scalendar__days_name>
+        <Scalendar__days_name>пт</Scalendar__days_name>
+        <Scalendar__days_name>сб</Scalendar__days_name>
+        <Scalendar__days_name>вс</Scalendar__days_name>
+      </Scalendar__days_names>
+      <Scalendar__cells>
+        <Scalendar__cell>28</Scalendar__cell>
+        <Scalendar__cell>29</Scalendar__cell>
+        <Scalendar__cell>30</Scalendar__cell>
+        <Scalendar__cell>31</Scalendar__cell>
+        <Scalendar__cell>1</Scalendar__cell>
+        <Scalendar__cell>2</Scalendar__cell>
+        <Scalendar__cell>3</Scalendar__cell>
+        <Scalendar__cell>4</Scalendar__cell>
+        <Scalendar__cell>5</Scalendar__cell>
+        <Scalendar__cell>6</Scalendar__cell>
+        <Scalendar__cell>7</Scalendar__cell>
+        <Scalendar__cell>8</Scalendar__cell>
+        <Scalendar__cell>9</Scalendar__cell>
+        <Scalendar__cell>10</Scalendar__cell>
+        <Scalendar__cell>11</Scalendar__cell>
+        <Scalendar__cell>12</Scalendar__cell>
+        <Scalendar__cell>13</Scalendar__cell>
+        <Scalendar__cell>14</Scalendar__cell>
+        <Scalendar__cell>15</Scalendar__cell>
+        <Scalendar__cell>16</Scalendar__cell>
+        <Scalendar__cell>17</Scalendar__cell>
+        <Scalendar__cell>18</Scalendar__cell>
+        <Scalendar__cell>19</Scalendar__cell>
+        <Scalendar__cell>20</Scalendar__cell>
+        <Scalendar__cell>21</Scalendar__cell>
+        <Scalendar__cell>22</Scalendar__cell>
+        <Scalendar__cell>23</Scalendar__cell>
+        <Scalendar__cell>24</Scalendar__cell>
+        <Scalendar__cell>25</Scalendar__cell>
+        <Scalendar__cell>26</Scalendar__cell>
+        <Scalendar__cell>27</Scalendar__cell>
+        <Scalendar__cell>28</Scalendar__cell>
+        <Scalendar__cell>29</Scalendar__cell>
+        <Scalendar__cell>30</Scalendar__cell>
+        <Scalendar__cell>1</Scalendar__cell>
+      </Scalendar__cells>
+    </Scalendar__content>
+  );
+}

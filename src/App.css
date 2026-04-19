@@ -757,7 +757,7 @@ body {
   font-size: 14px;
   line-height: 1;
   font-weight: 500;
-  margin-right: 20px;
+  margin-right: 25px;
 }
 .header__btn-main-new a {
   color: #ffffff;
@@ -771,6 +771,9 @@ body {
   font-size: 14px;
   line-height: 20px;
   color: #565eef;
+  background: transparent;
+  border: none;
+  outline: none;
 }
 .header__user::after {
   content: "";
@@ -785,10 +788,9 @@ body {
   padding: 0;
 }
 .header__pop-user-set {
-  display: none;
   position: absolute;
-  top: 61px;
-  right: 0;
+  top: 58px;
+  right: 16px;
   width: 213px;
   height: 205px;
   border-radius: 10px;

@@ -19,8 +19,15 @@ export const SHeader__block = styled.div`
 `;
 
 export const Scontainer = styled.div`
+  max-width: 1260px;
   width: 100%;
+  margin: 0 auto;
   padding: 0 68px;
+
+  @media screen and (max-width: 495px) {
+    width: 100%;
+    padding: 0 16px;
+  }
 `;
 
 export const Sheader__nav = styled.div`

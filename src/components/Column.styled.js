@@ -4,6 +4,12 @@ export const Smain__column = styled.div`
   width: 20%;
   margin: 0 auto;
   display: block;
+
+  @media screen and (max-width: 1200px) {
+    width: 100%;
+    margin: 0 auto;
+    display: block;
+  }
 `;
 
 export const Scolumn__title = styled.div`
@@ -23,4 +29,10 @@ export const Scards = styled.div`
   width: 100%;
   display: block;
   position: relative;
+
+  @media screen and (max-width: 1200px) {
+    width: 100%;
+    display: flex;
+    overflow-y: auto;
+  }
 `;

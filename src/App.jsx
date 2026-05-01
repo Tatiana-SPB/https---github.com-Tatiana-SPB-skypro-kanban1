@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
+import { GlobalStyle } from "./components/GlobalStyle.jsx";
 import "./App.css";
 import { Header } from "./components/Header";
-import { Main } from "./components/Main";
+import { Swrapper } from "./App.styled.js";
 import { PopBrowse } from "./components/popups/PopBrowse";
 import { PopExit } from "./components/popups/PopExit";
 import { PopNewCard } from "./components/popups/PopNewCard";
-import SMain from "./components/Main.styled.jsx";
+import { SMain } from "./components/Main.styled.jsx";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -17,17 +18,20 @@ function App() {
   }, [loading]);
 
   return (
-    <div className="wrapper">
-      <PopExit />
+    <>
+      <GlobalStyle />
+      <Swrapper>
+        <PopExit />
 
-      <PopNewCard />
+        <PopNewCard />
 
-      <PopBrowse />
+        <PopBrowse />
 
-      <Header />
+        <Header />
 
-      <SMain loading={loading} />
-    </div>
+        <SMain loading={loading} />
+      </Swrapper>
+    </>
   );
 }
 

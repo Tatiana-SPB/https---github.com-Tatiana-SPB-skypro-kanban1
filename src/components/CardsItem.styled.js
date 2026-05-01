@@ -1,6 +1,17 @@
 import styled from "styled-components";
 
 export const Scards__item = styled.div`
+  @keyframes card-animation {
+    0% {
+      height: 0;
+      opacity: 0;
+    }
+    100% {
+      height: auto;
+      opacity: 1;
+    }
+  }
+
   padding: 5px;
   animation-name: card-animation;
   animation-duration: 500ms;
@@ -55,6 +66,18 @@ export const Scards__card = styled.div`
   align-items: flex-start;
   justify-content: stretch;
   padding: 15px 13px 19px;
+
+  @media screen and (max-width: 1200px) {
+    width: 220px;
+    height: 130px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: stretch;
+    padding: 15px 13px 19px;
+  }
 `;
 
 export const Scard__group = styled.div`

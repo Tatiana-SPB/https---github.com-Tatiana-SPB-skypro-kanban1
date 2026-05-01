@@ -19,14 +19,17 @@ export const Scalendar__days_name = styled.div`
   font-weight: 500;
   line-height: normal;
   letter-spacing: -0.2px;
+
+  @media screen and (max-width: 660px) {
+    font-size: 14px;
+  }
 `;
 
 export const Scalendar__cells = styled.div`
-  width: 344px;
-  height: auto;
+  width: 182px;
+  height: 126px;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
 
   @media screen and (max-width: 660px) {
     width: 344px;

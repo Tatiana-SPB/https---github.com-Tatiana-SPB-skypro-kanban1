@@ -7,7 +7,7 @@ import {
   Sheader__logo,
   Sheader__nav,
   Sheader__user,
-} from "./Header.styled";
+} from "./Header.styled.js";
 
 export function Header() {
   const [isPopUser, setPopUser] = useState(false);

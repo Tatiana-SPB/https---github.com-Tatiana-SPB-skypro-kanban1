@@ -1,6 +1,7 @@
+import { GlobalStyle } from "./components/GlobalStyle.js";
 import { useEffect, useState } from "react";
 import "./App.css";
-import { Header } from "./components/Header";
+import { Header } from "./components/Header.styled.jsx";
 import { PopBrowse } from "./components/popups/PopBrowse";
 import { PopExit } from "./components/popups/PopExit";
 import { PopNewCard } from "./components/popups/PopNewCard";
@@ -17,17 +18,20 @@ function App() {
   }, [loading]);
 
   return (
-    <Swrapper>
-      <PopExit />
+    <>
+      <GlobalStyle />
+      <Swrapper>
+        <PopExit />
 
-      <PopNewCard />
+        <PopNewCard />
 
-      <PopBrowse />
+        <PopBrowse />
 
-      <Header />
+        <Header />
 
-      <SMain loading={loading} />
-    </Swrapper>
+        <SMain loading={loading} />
+      </Swrapper>
+    </>
   );
 }
 

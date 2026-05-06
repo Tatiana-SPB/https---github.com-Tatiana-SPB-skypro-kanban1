@@ -1,11 +1,11 @@
-import { GlobalStyle } from "./components/GlobalStyle.js";
+import { GlobalStyle } from "./GlobalStyle.js";
 import { useEffect, useState } from "react";
 import "./App.css";
-import { Header } from "./components/Header.styled.jsx";
+import { Header } from "./components/Header/Header.jsx";
 import { PopBrowse } from "./components/popups/PopBrowse";
 import { PopExit } from "./components/popups/PopExit";
 import { PopNewCard } from "./components/popups/PopNewCard";
-import { SMain } from "./components/Main.styled.jsx";
+import { SMain } from "./components/Main/Main.jsx";
 import { Swrapper } from "./App.styled.js";
 
 function App() {

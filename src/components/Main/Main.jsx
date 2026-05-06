@@ -1,5 +1,5 @@
-import { SColumn } from "./Column.styled.jsx";
-import { cardList } from "../data.js";
+import { SColumn } from "../Column/Column.jsx";
+import { cardList } from "../../data.js";
 import {
   Scontainer,
   Smain,

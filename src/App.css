@@ -612,21 +612,6 @@
   display: none;
 }
 
-.header__btn-main-new {
-  width: 178px;
-  height: 30px;
-  border-radius: 4px;
-  background-color: #565eef;
-  color: #ffffff;
-  border: none;
-  font-size: 14px;
-  line-height: 1;
-  font-weight: 500;
-  margin-right: 20px;
-}
-.header__btn-main-new a {
-  color: #ffffff;
-}
 .header__pop-user-set {
   position: absolute;
   top: 58px;
@@ -688,17 +673,6 @@
   }
 }
 @media screen and (max-width: 495px) {
-  .header__btn-main-new {
-    z-index: 3;
-    position: fixed;
-    left: 16px;
-    bottom: 30px;
-    top: auto;
-    width: calc(100vw - 32px);
-    height: 40px;
-    border-radius: 4px;
-    margin-right: 0;
-  }
   .pop-new-card__container {
     padding: 0;
     justify-content: flex-start;

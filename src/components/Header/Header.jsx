@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { PopUser } from "./popups/PopUser";
+import { PopUser } from "../popups/PopUser.jsx";
 import {
   Scontainer,
   SHeader,
   SHeader__block,
+  Sheader__btn_main_new,
   Sheader__logo,
   Sheader__nav,
   Sheader__user,
@@ -33,9 +34,9 @@ export function Header() {
             </a>
           </Sheader__logo>
           <Sheader__nav>
-            <button className="header__btn-main-new _hover01" id="btnMainNew">
+            <Sheader__btn_main_new id="btnMainNew">
               <a href="#popNewCard">Создать новую задачу</a>
-            </button>
+            </Sheader__btn_main_new>
             <Sheader__user
               type="button"
               onClick={clickPopUser}

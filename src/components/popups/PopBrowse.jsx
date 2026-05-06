@@ -1,4 +1,4 @@
-import { Calendar } from "../Calendar.styled.jsx";
+import { Calendar } from "../Calendar/Calendar.jsx";
 
 export function PopBrowse() {
   return (

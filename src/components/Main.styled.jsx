@@ -1,7 +1,13 @@
 import { SColumn } from "./Column.styled.jsx";
 import { cardList } from "../data.js";
+import {
+  Scontainer,
+  Smain,
+  Smain__block,
+  Smain__content,
+} from "./Main.styled.js";
 
-export function Main({ loading }) {
+export function SMain({ loading }) {
   const statuses = [
     "Без статуса",
     "Нужно сделать",
@@ -35,10 +41,10 @@ export function Main({ loading }) {
     );
   } else {
     return (
-      <main className="main">
-        <div className="container">
-          <div className="main__block">
-            <div className="main__content">
+      <Smain>
+        <Scontainer>
+          <Smain__block>
+            <Smain__content>
               {statuses.map((status) => (
                 <SColumn
                   key={status}
@@ -46,10 +52,12 @@ export function Main({ loading }) {
                   cards={groupedCards[status]}
                 />
               ))}
-            </div>
-          </div>
-        </div>
-      </main>
+            </Smain__content>
+          </Smain__block>
+        </Scontainer>
+      </Smain>
     );
   }
 }
+
+export default SMain;

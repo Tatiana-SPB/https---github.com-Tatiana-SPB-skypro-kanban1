@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import {
   Scard__btn,
   Scard__content,
@@ -10,10 +11,19 @@ import {
 } from "./CardsItem.styled.js";
 
 export const SCardsItem = ({ card }) => {
+  const navigate = useNavigate();
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    if (card) {
+      navigate(`/card/${card.id}`);
+    }
+  };
+
   if (card) {
     return (
       <>
-        <Scards__item key={card.id}>
+        <Scards__item onClick={handleLogin} key={card.id}>
           <Scards__card>
             <Scard__group>
               <Scard__theme theme={card.topic}>

@@ -1,4 +1,5 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { Spop_exit__exit_yes } from "./PopExit.styled.js";
 
 export function PopExit({ setIsAuth }) {
   const navigate = useNavigate();
@@ -18,16 +19,16 @@ export function PopExit({ setIsAuth }) {
           </div>
           <form className="pop-exit__form" id="formExit" action="#">
             <div className="pop-exit__form-group">
-              <button
-                className="pop-exit__exit-yes _hover01"
+              <Spop_exit__exit_yes
+                to="/login"
                 id="exitYes"
                 onClick={handleLogout}
               >
-                <a href="modal/signin.html">Да, выйти</a>{" "}
-              </button>
-              <button className="pop-exit__exit-no _hover03" id="exitNo">
-                <a href="main.html">Нет, остаться</a>{" "}
-              </button>
+                Да, выйти
+              </Spop_exit__exit_yes>
+              <Link to="/" className="pop-exit__exit-no _hover03" id="exitNo">
+                Нет, остаться
+              </Link>
             </div>
           </form>
         </div>

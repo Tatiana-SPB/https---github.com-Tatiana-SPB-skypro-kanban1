@@ -3,12 +3,13 @@ import { PopUser } from "../popups/PopUser.jsx";
 import {
   Scontainer,
   SHeader,
+  Sheader__a_main_new,
   SHeader__block,
-  Sheader__btn_main_new,
   Sheader__logo,
   Sheader__nav,
   Sheader__user,
 } from "./Header.styled.js";
+import { Link } from "react-router-dom";
 
 export function Header() {
   const [isPopUser, setPopUser] = useState(false);
@@ -34,9 +35,9 @@ export function Header() {
             </a>
           </Sheader__logo>
           <Sheader__nav>
-            <Sheader__btn_main_new id="btnMainNew">
-              <a href="#popNewCard">Создать новую задачу</a>
-            </Sheader__btn_main_new>
+            <Sheader__a_main_new to="/add" id="btnMainNew">
+              Создать новую задачу
+            </Sheader__a_main_new>
             <Sheader__user
               type="button"
               onClick={clickPopUser}

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const SHeader = styled.header`
@@ -38,24 +39,21 @@ export const Sheader__nav = styled.div`
   justify-content: center;
 `;
 
-export const Sheader__btn_main_new = styled.button`
+export const Sheader__a_main_new = styled(Link)`
   width: 178px;
   height: 30px;
   border-radius: 4px;
   background-color: #565eef;
   color: #ffffff;
-  border: none;
   font-size: 14px;
-  line-height: 1;
   font-weight: 500;
   margin-right: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-  ._hover01:hover {
+  &:hover {
     background-color: #33399b;
-  }
-
-  & a {
-    color: #ffffff;
   }
 
   @media screen and (max-width: 495px) {

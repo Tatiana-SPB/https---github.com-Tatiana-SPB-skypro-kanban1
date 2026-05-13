@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const Swrapper = styled.div`
@@ -15,7 +16,7 @@ export const Scontainer = styled.div`
   margin: 0 auto;
 `;
 
-export const Smodal = styled.div`
+export const Smodal = styled(Link)`
   width: 100%;
   height: 100%;
   min-width: 320px;
@@ -58,6 +59,7 @@ export const Smodal__ttl = styled.h2`
   line-height: 30px;
   letter-spacing: -0.6px;
   margin-bottom: 20px;
+  color: #000000;
 `;
 
 export const Smodal__form = styled.form`
@@ -79,6 +81,7 @@ export const Smodal__input = styled.input`
   border: 0.7px solid rgba(148, 166, 190, 0.4);
   outline: none;
   padding: 10px 8px;
+  margin-bottom: 7px;
 
   &::-moz-placeholder {
     font-family: "Roboto", sans-serif;
@@ -98,7 +101,7 @@ export const Smodal__input = styled.input`
   }
 `;
 
-export const Smodal__btn = styled.button`
+export const Smodal__a = styled.button`
   width: 100%;
   height: 30px;
   background-color: #565eef;
@@ -116,16 +119,7 @@ export const Smodal__btn = styled.button`
   letter-spacing: -0.14px;
   color: #ffffff;
 
-  & a {
-    width: 100%;
-    height: 100%;
-    color: #ffffff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  ._hover01:hover {
+  &:hover {
     background-color: #33399b;
   }
   @media screen and (max-width: 375px) {

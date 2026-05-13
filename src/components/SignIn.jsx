@@ -1,4 +1,4 @@
-import AuthForm from "./AuthForm.jsx";
+import AuthForm from "./AuthForm/AuthForm.jsx";
 
 const SignIn = () => {
   return <AuthForm isSignUp={false} />;

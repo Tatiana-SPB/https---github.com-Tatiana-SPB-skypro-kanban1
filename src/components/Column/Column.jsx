@@ -1,4 +1,4 @@
-import SCardsItem from "./CardsItem.styled.jsx";
+import SCardsItem from "../CardsItem/CardsItem.jsx";
 import { Scards, Scolumn__title, Smain__column } from "./Column.styled.js";
 
 export function SColumn({ status, cards }) {

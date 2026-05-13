@@ -1,6 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 
-const GlobalStyle = createGlobalStyle`
+export const GlobalStyle = createGlobalStyle`
 * {
   margin: 0;
   padding: 0;
@@ -26,6 +26,17 @@ button,
 
 ul li {
   list-style: none;
+}
+
+@keyframes card-animation {
+  0% {
+    height: 0;
+    opacity: 0;
+  }
+  100% {
+    height: auto;
+    opacity: 1;
+  }
 }
 
 html,
@@ -221,3 +232,5 @@ body {
   }
 }
 `;
+
+export default GlobalStyle;

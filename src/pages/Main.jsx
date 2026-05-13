@@ -1,38 +1,32 @@
-import { useEffect, useState } from "react";
-import { GlobalStyle } from "./components/GlobalStyle.jsx";
+import { GlobalStyle } from "./GlobalStyle.js";
 import "./App.css";
 import { Header } from "./components/Header";
-import { Swrapper } from "./App.styled.js";
 import { PopBrowse } from "./components/popups/PopBrowse";
 import { PopExit } from "./components/popups/PopExit";
 import { PopNewCard } from "./components/popups/PopNewCard";
 import { SMain } from "./components/Main.styled.jsx";
+import styled from "styled-components";
+import { Outlet } from "react-router-dom";
 
-function App() {
-  const [loading, setLoading] = useState(true);
+const Swrapper = styled.div`
+  max-width: 100%;
+  width: 100vw;
+  min-height: 100vh;
+  overflow: hidden;
+  background-color: #eaeef6;
+`;
 
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 3000);
-  }, [loading]);
-
+const MainPage = ({ loading }) => {
   return (
     <>
       <GlobalStyle />
       <Swrapper>
-        <PopExit />
-
-        <PopNewCard />
-
-        <PopBrowse />
-
         <Header />
-
         <SMain loading={loading} />
+        <Outlet />
       </Swrapper>
     </>
   );
-}
+};
 
-export default App;
+export default MainPage;

@@ -23,10 +23,11 @@ function AppRoutes() {
   return (
     <Router>
       <Routes>
-        <Route element={<PrivateRoute isAuth={!isAuth} />}>
-          <Route path="/" element={<MainPage loading={loading} />} />
-          <Route path="/card/:id" element={<Browse />} />
-          <Route path="/add" element={<NewCard />} />
+        <Route element={<PrivateRoute isAuth={isAuth} />}>
+          <Route path="/" element={<MainPage loading={loading} />}>
+            <Route path="/card/:id" element={<Browse />} />
+            <Route path="/add" element={<NewCard />} />
+          </Route>
           <Route path="/exit" element={<PopExit />} />
         </Route>
 

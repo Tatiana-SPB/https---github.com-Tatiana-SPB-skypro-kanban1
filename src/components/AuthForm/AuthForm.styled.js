@@ -16,7 +16,7 @@ export const Scontainer = styled.div`
   margin: 0 auto;
 `;
 
-export const Smodal = styled(Link)`
+export const Smodal = styled.div`
   width: 100%;
   height: 100%;
   min-width: 320px;

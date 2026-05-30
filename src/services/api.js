@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "https://wedev-api.sky.pro/api/words/";
+const API_URL = "https://wedev-api.sky.pro/api/kanban";
 
 export async function fetchWords({ token }) {
   try {

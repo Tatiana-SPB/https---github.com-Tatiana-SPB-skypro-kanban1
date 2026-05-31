@@ -6,6 +6,7 @@ export function PopExit({ setIsAuth }) {
 
   function handleLogout(e) {
     e.preventDefault();
+    localStorage.removeItem("userInfo");
     setIsAuth(false);
     navigate("/login");
   }
@@ -17,7 +18,12 @@ export function PopExit({ setIsAuth }) {
           <div className="pop-exit__ttl">
             <h2>Выйти из аккаунта?</h2>
           </div>
-          <form className="pop-exit__form" id="formExit" action="#">
+          <form
+            className="pop-exit__form"
+            id="formExit"
+            action="#"
+            onSubmit={handleLogout}
+          >
             <div className="pop-exit__form-group">
               <Spop_exit__exit_yes
                 to="/login"

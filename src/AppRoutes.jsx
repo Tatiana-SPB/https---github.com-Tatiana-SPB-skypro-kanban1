@@ -28,7 +28,7 @@ function AppRoutes() {
             <Route path="/card/:id" element={<Browse />} />
             <Route path="/add" element={<NewCard />} />
           </Route>
-          <Route path="/exit" element={<PopExit />} />
+          <Route path="/exit" element={<PopExit setIsAuth={setIsAuth} />} />
         </Route>
 
         <Route path="/login" element={<SignInPage setIsAuth={setIsAuth} />} />

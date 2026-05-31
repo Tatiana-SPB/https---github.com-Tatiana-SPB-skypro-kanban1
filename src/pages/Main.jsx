@@ -7,7 +7,7 @@ import { SMain } from "../components/Main/Main.jsx";
 import styled from "styled-components";
 import { Outlet } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
-import { fetchWords } from "../services/api.js";
+import { fetchTasks } from "../services/api.js";
 
 const Swrapper = styled.div`
   max-width: 100%;
@@ -19,15 +19,15 @@ const Swrapper = styled.div`
 
 const MainPage = () => {
   const [loading, setLoading] = useState(false);
-  const [words, setWords] = useState([]);
+  const [tasks, setTasks] = useState([]);
   const [error, setError] = useState("");
-  const getWords = useCallback(async () => {
+  const getTasks = useCallback(async () => {
     try {
       setLoading(true);
-      const data = await fetchWords({
-        token: "bgc0b8awbwas6g5g5k5o5s5w606g37w3cc3bo3b83k39s3co3c83c03ck",
+      const data = await fetchTasks({
+        token: "ksdfsksdfjfsdjk",
       });
-      if (data) setWords(data);
+      if (data) setTasks(data);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -36,14 +36,14 @@ const MainPage = () => {
   }, []);
   
   useEffect(() => {
-    getWords();
-  }, [getWords]);
+    getTasks();
+  }, [getTasks]);
 
   return (
     <>
       <Swrapper>
         <Header />
-        <SMain loading={loading} error={error} words={words} />
+        <SMain loading={loading} error={error} tasks={tasks} />
         <Outlet />
       </Swrapper>
     </>

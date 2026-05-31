@@ -11,7 +11,7 @@ import {
 } from "./AuthForm.styled.js";
 import { Link, useNavigate } from "react-router-dom";
 
-export function AuthForm({ isSignUp, setIsAuth = () => {} }) {
+export function AuthForm({ isSignUp, setIsAuth }) {
   const navigate = useNavigate();
   const handleLogin = (e) => {
     e.preventDefault();

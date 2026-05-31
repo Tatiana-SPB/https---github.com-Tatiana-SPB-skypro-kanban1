@@ -2,7 +2,7 @@ import axios from "axios";
 
 const API_URL = "https://wedev-api.sky.pro/api/kanban";
 
-export async function fetchWords({ token }) {
+export async function fetchTasks({ token }) {
   try {
     const data = await axios.get(API_URL, {
       headers: {
@@ -17,9 +17,9 @@ export async function fetchWords({ token }) {
 
 //Функция добавления нового слова:
 
-export async function postWord({ token, word }) {
+export async function postWord({ token, task }) {
   try {
-    const data = await axios.post(API_URL, word, {
+    const data = await axios.post(API_URL, task, {
       headers: {
         Authorization: "Bearer " + token,
         "Content-Type": "text/html",
@@ -33,7 +33,7 @@ export async function postWord({ token, word }) {
 
 //Функция получения конкретного слова:
 
-export async function fetchWord({ token, id }) {
+export async function fetchTask({ token, id }) {
   try {
     const data = await axios.get(API_URL + id, {
       headers: {
@@ -48,9 +48,9 @@ export async function fetchWord({ token, id }) {
 
 //Функция изменения слова:
 
-export async function editWord({ token, id, word }) {
+export async function editWord({ token, id, task }) {
   try {
-    const data = await axios.patch(API_URL + id, word, {
+    const data = await axios.patch(API_URL + id, task, {
       headers: {
         Authorization: "Bearer " + token,
         "Content-Type": "text/html",

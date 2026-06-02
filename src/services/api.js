@@ -17,15 +17,15 @@ export async function fetchTasks({ token }) {
 
 //Функция добавления нового слова:
 
-export async function postWord({ token, task }) {
+export async function postTask({ token, task }) {
   try {
-    const data = await axios.post(API_URL, task, {
+    const response = await axios.post(API_URL, task, {
       headers: {
         Authorization: "Bearer " + token,
-        "Content-Type": "text/html",
+        "Content-Type": "application/json",
       },
     });
-    return data.data.tasks;
+    return response.data.tasks;
   } catch (error) {
     throw new Error(error.message);
   }
@@ -35,12 +35,12 @@ export async function postWord({ token, task }) {
 
 export async function fetchTask({ token, id }) {
   try {
-    const data = await axios.get(API_URL + id, {
+    const response = await axios.get(API_URL + id, {
       headers: {
         Authorization: "Bearer " + token,
       },
     });
-    return data.data;
+    return response.data.task;
   } catch (error) {
     throw new Error(error.message);
   }
@@ -48,15 +48,15 @@ export async function fetchTask({ token, id }) {
 
 //Функция изменения слова:
 
-export async function editWord({ token, id, task }) {
+export async function editTask({ token, id, task }) {
   try {
-    const data = await axios.patch(API_URL + id, task, {
+    const response = await axios.put(`${API_URL}/${id}`, task, {
       headers: {
         Authorization: "Bearer " + token,
-        "Content-Type": "text/html",
+        "Content-Type": "application/json",
       },
     });
-    return data.data.tasks;
+    return response.data.tasks;
   } catch (error) {
     throw new Error(error.message);
   }
@@ -66,15 +66,12 @@ export async function editWord({ token, id, task }) {
 
 export async function deleteWord({ token, id }) {
   try {
-    const data = await axios.delete(API_URL, id, {
+    await axios.delete(`${API_URL}/${id}`, {
       headers: {
         Authorization: "Bearer " + token,
-        "Content-Type": "text",
       },
     });
-    return data.data.tasks;
   } catch (error) {
     throw new Error(error.message);
   }
 }
-

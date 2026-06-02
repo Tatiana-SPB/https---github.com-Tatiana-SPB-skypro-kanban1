@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import MainPage from "./pages/Main.jsx";
 import SignInPage from "./pages/SignInPage.jsx";
 import SignUpPage from "./pages/SignUpPage.jsx";
@@ -11,20 +11,28 @@ import PrivateRoute from "./components/PrivateRoute.jsx";
 import { PopExit } from "./components/popups/PopExit.jsx";
 
 function AppRoutes() {
-  const [isAuth, setIsAuth] = useState(false);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 3000);
-  }, []);
+  const [isAuth, setIsAuth] = useState(() => {
+    const userInfo = localStorage.getItem("userInfo");
+    if (userInfo) {
+      try {
+        const { token } = JSON.parse(userInfo);
+        return !!token;
+      } catch (error) {
+        console.error("Ошибка парсинга userInfo:", error);
+        return false;
+      }
+    }
+    return false;
+  });
 
   return (
     <Router>
       <Routes>
         <Route element={<PrivateRoute isAuth={isAuth} />}>
-          <Route path="/" element={<MainPage loading={loading} />}>
+          <Route
+            path="/"
+            element={<MainPage isAuth={isAuth} setIsAuth={setIsAuth} />}
+          >
             <Route path="/card/:id" element={<Browse />} />
             <Route path="/add" element={<NewCard />} />
           </Route>

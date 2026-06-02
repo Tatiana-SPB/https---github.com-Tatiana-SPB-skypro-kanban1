@@ -1,5 +1,5 @@
 import { SColumn } from "../Column/Column.jsx";
-import { cardList } from "../../data.js";
+//import { cardList } from "../../data.js";
 import {
   Scontainer,
   Smain,
@@ -7,7 +7,7 @@ import {
   Smain__content,
 } from "./Main.styled.js";
 
-export function SMain({ loading }) {
+export function SMain({ loading, error, tasks }) {
   const statuses = [
     "Без статуса",
     "Нужно сделать",
@@ -17,7 +17,7 @@ export function SMain({ loading }) {
   ];
 
   const groupedCards = statuses.reduce((acc, status) => {
-    acc[status] = cardList.filter((card) => card.status === status);
+    acc[status] = tasks.filter((card) => card.status === status);
     return acc;
   }, {});
 
@@ -39,25 +39,30 @@ export function SMain({ loading }) {
         Данные загружаются
       </div>
     );
-  } else {
+  }
+  if (error) {
     return (
-      <Smain>
-        <Scontainer>
-          <Smain__block>
-            <Smain__content>
-              {statuses.map((status) => (
-                <SColumn
-                  key={status}
-                  status={status}
-                  cards={groupedCards[status]}
-                />
-              ))}
-            </Smain__content>
-          </Smain__block>
-        </Scontainer>
-      </Smain>
+      <div style={{ color: "red", textAlign: "center" }}>Ошибка: {error}</div>
     );
   }
+
+  return (
+    <Smain>
+      <Scontainer>
+        <Smain__block>
+          <Smain__content>
+            {statuses.map((status) => (
+              <SColumn
+                key={status}
+                status={status}
+                cards={groupedCards[status]}
+              />
+            ))}
+          </Smain__content>
+        </Smain__block>
+      </Scontainer>
+    </Smain>
+  );
 }
 
 export default SMain;

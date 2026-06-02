@@ -8,6 +8,7 @@ import Browse from "./pages/PopBrowse.jsx";
 import NewCard from "./pages/PopNewCard.jsx";
 import NotFoundPage from "./pages/NotFound.jsx";
 import PrivateRoute from "./components/PrivateRoute.jsx";
+import { PopExit } from "./components/popups/PopExit.jsx";
 
 function AppRoutes() {
   const [isAuth, setIsAuth] = useState(false);
@@ -23,33 +24,18 @@ function AppRoutes() {
     <Router>
       <Routes>
         <Route element={<PrivateRoute isAuth={isAuth} />}>
-          {/* Главная страница */}
-          <Route path="/" element={<MainPage loading={loading} />} />
-
-          {/* Просмотр и редактирование карточки */}
           <Route path="/" element={<MainPage loading={loading} />}>
             <Route path="/card/:id" element={<Browse />} />
+            <Route path="/add" element={<NewCard />} />
           </Route>
-
-          {/* Добавление новой задачи */}
-          <Route path="/" element={<MainPage loading={loading} />}>
-            <Route path="/" element={<NewCard />} />
-          </Route>
+          <Route path="/exit" element={<PopExit setIsAuth={setIsAuth} />} />
         </Route>
 
-        {/* Страница входа */}
         <Route path="/login" element={<SignInPage setIsAuth={setIsAuth} />} />
 
-        {/* Страница регистрации */}
         <Route path="/register" element={<SignUpPage />} />
 
-        {/* Выход из аккаунта */}
-        <Route path="/" element={<MainPage loading={loading} />}>
-          <Route path="/exit" element={<Exit />} />
-        </Route>
-
-        {/* 404 */}
-        <Route path="\*" element={<NotFoundPage />} />
+        <Route path="/*" element={<NotFoundPage />} />
       </Routes>
     </Router>
   );

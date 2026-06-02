@@ -1,8 +1,28 @@
+import { Link } from "react-router-dom";
 import { Calendar } from "../Calendar/Calendar.jsx";
+import styled from "styled-components";
+
+const Sbtn_browse__close_btn_bg = styled(Link)`
+  width: 178px;
+  height: 30px;
+  border-radius: 4px;
+  background-color: #565eef;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:hover {
+    background-color: #33399b;
+    color: #ffffff;
+  }
+`;
 
 export function PopBrowse() {
   return (
-    <div className="pop-browse" id="popBrowse">
+    <div className="pop-browse">
       <div className="pop-browse__container">
         <div className="pop-browse__block">
           <div className="pop-browse__content">
@@ -107,9 +127,9 @@ export function PopBrowse() {
                   <a href="#">Удалить задачу</a>
                 </button>
               </div>
-              <button className="btn-browse__close _btn-bg _hover01">
-                <a href="#">Закрыть</a>
-              </button>
+              <Sbtn_browse__close_btn_bg to="/">
+                Закрыть
+              </Sbtn_browse__close_btn_bg>
             </div>
             <div className="pop-browse__btn-edit _hide">
               <div className="btn-group">
@@ -126,7 +146,7 @@ export function PopBrowse() {
                   <a href="#">Удалить задачу</a>
                 </button>
               </div>
-              <button className="btn-edit__close _btn-bg _hover01">
+              <button className="btn-browse__close _btn-bg _hover01">
                 <a href="#">Закрыть</a>
               </button>
             </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { PopUser } from "../popups/PopUser.jsx";
 import {
   Scontainer,
@@ -10,9 +10,12 @@ import {
   Sheader__user,
 } from "./Header.styled.js";
 import { Link } from "react-router-dom";
+import { useAuth, ThemeContext } from "../../context/contextAPI.js";
 
 export function Header() {
   const [isPopUser, setPopUser] = useState(false);
+  const { user } = useAuth();
+  const { theme } = useContext(ThemeContext);
 
   const clickPopUser = () => {
     setPopUser((prevIsPopUser) => {
@@ -21,17 +24,21 @@ export function Header() {
   };
 
   return (
-    <SHeader>
+    <SHeader
+      style={{ backgroundColor: theme === "light" ? "#20202C" : "#FFFFFF" }}
+    >
       <Scontainer>
         <SHeader__block>
           <Sheader__logo>
             <a href="#" target="_self">
-              <img src="/images/logo.png" alt="logo" />
-            </a>
-          </Sheader__logo>
-          <Sheader__logo>
-            <a href="#" target="_self">
-              <img src="/images/logo_dark.png" alt="logo" />
+              <img
+                src={
+                  theme === "light"
+                    ? "/images/logo_dark.png"
+                    : "/images/logo.png"
+                }
+                alt="logo"
+              />
             </a>
           </Sheader__logo>
           <Sheader__nav>
@@ -39,12 +46,13 @@ export function Header() {
               Создать новую задачу
             </Sheader__a_main_new>
             <Sheader__user
+              style={{ color: theme === "light" ? "#FFFFFF" : "#565eef" }}
               type="button"
               onClick={clickPopUser}
               aria-haspopup="true"
               aria-expanded={isPopUser ? "true" : "false"}
             >
-              Ivan Ivanov
+              {user ? user.login : "Гость"}{" "}
             </Sheader__user>
 
             <PopUser isPopUser={isPopUser} />

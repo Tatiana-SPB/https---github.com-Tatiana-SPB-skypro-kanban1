@@ -1,39 +1,73 @@
-import styled from "styled-components";
 import { Link } from "react-router-dom";
-
-const Sheader__a_main_new = styled(Link)`
-  width: 153px;
-  height: 30px;
-  border-radius: 4px;
-  border: 0.7px solid var(--palette-navy-60, #565eef);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  line-height: 21px;
-  font-weight: 500;
-  letter-spacing: -0.14px;
-  color: #565eef;
-
-  &:hover {
-    background-color: #33399b;
-    color: #ffffff;
-  }
-`;
+import { useContext } from "react";
+import { useAuth, ThemeContext } from "../../context/contextAPI.js";
+import {
+  Sheader__a_main_new,
+  Sheader__pop_user_set,
+  Sheader__pop_user_set_mail,
+  Sheader__pop_user_set_name,
+  Sheader__pop_user_set_theme,
+} from "./PopUser.styled.js";
 
 export function PopUser({ isPopUser }) {
-  if (!isPopUser) return null;
+  const { user, logout } = useAuth();
+  const { theme, setTheme } = useContext(ThemeContext);
+  const onToggleTheme = () => {
+    setTheme(theme === "light" ? "dark" : "light");
+  };
+
+  if (!isPopUser || !user) return null;
 
   return (
-    <div className="header__pop-user-set pop-user-set">
-      <p className="pop-user-set__name">Ivan Ivanov</p>
-      <p className="pop-user-set__mail">ivan.ivanov@gmail.com</p>
-      <div className="pop-user-set__theme">
-        <p>Темная тема</p>
-        <input type="checkbox" className="checkbox" name="checkbox" />
-      </div>
-      <Sheader__a_main_new to="/exit">Выйти</Sheader__a_main_new>
-    </div>
+    <Sheader__pop_user_set
+      style={{
+        backgroundColor: theme === "light" ? "rgba(32, 34, 41, 1)" : "#fff",
+        border:
+          theme === "light"
+            ? "rgba(78, 85, 102, 1)"
+            : "rgba(148, 166, 190, 0.4)",
+        boxShadow:
+          theme === "light"
+            ? "0px 10px 39px 0px rgba(148, 166, 190, 0.4)"
+            : "0px 10px 39px 0px rgba(26, 56, 101, 0.21)",
+      }}
+    >
+      <Sheader__pop_user_set_name
+        style={{
+          color: theme === "light" ? "#fff" : "#000",
+        }}
+      >
+        {user.name}
+      </Sheader__pop_user_set_name>
+      <Sheader__pop_user_set_mail>{user.login}</Sheader__pop_user_set_mail>
+      <Sheader__pop_user_set_theme>
+        <p
+          style={{
+            color: theme === "light" ? "#fff" : "#000",
+          }}
+        >
+          Темная тема
+        </p>
+        <input
+          checked={theme === "dark"}
+          onChange={onToggleTheme}
+          type="checkbox"
+          className="checkbox"
+          name="checkbox"
+        />
+      </Sheader__pop_user_set_theme>
+      <Sheader__a_main_new
+        onClick={logout}
+        to="/exit"
+        style={{
+          backgroundColor: theme === "light" ? "transparent" : "#fff",
+          color: theme === "light" ? "#fff" : "#565eef",
+          borderColor: theme === "light" ? "#fff" : "#565eef",
+        }}
+      >
+        Выйти
+      </Sheader__a_main_new>
+    </Sheader__pop_user_set>
   );
 }
 

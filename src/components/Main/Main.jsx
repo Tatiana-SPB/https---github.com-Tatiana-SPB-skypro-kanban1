@@ -1,13 +1,17 @@
+import { useContext } from "react";
 import { SColumn } from "../Column/Column.jsx";
-//import { cardList } from "../../data.js";
 import {
   Scontainer,
   Smain,
   Smain__block,
   Smain__content,
 } from "./Main.styled.js";
+import { TasksContext, ThemeContext } from "../../context/contextAPI.js";
 
-export function SMain({ loading, error, tasks }) {
+export function SMain({ loading, error }) {
+  const tasksContext = useContext(TasksContext);
+  const { theme } = useContext(ThemeContext);
+
   const statuses = [
     "Без статуса",
     "Нужно сделать",
@@ -17,7 +21,7 @@ export function SMain({ loading, error, tasks }) {
   ];
 
   const groupedCards = statuses.reduce((acc, status) => {
-    acc[status] = tasks.filter((card) => card.status === status);
+    acc[status] = tasksContext.tasks.filter((card) => card.status === status);
     return acc;
   }, {});
 
@@ -47,7 +51,9 @@ export function SMain({ loading, error, tasks }) {
   }
 
   return (
-    <Smain>
+    <Smain
+      style={{ backgroundColor: theme === "light" ? "#151419" : "#eaeef6" }}
+    >
       <Scontainer>
         <Smain__block>
           <Smain__content>

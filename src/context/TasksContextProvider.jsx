@@ -1,8 +1,9 @@
-import { useCallback, useEffect, useState } from "react";
-import { TasksContext } from "./contextAPI.js";
-import { fetchTasks } from "../services/api";
+import { useCallback, useContext, useEffect, useState } from "react";
+import { AuthContext, TasksContext } from "./contextAPI.js";
+import { apiAddTask, fetchTasks } from "../services/api";
 
 export const TasksContextProvider = ({ children }) => {
+  const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const [tasks, setTasks] = useState([]);
   const [error, setError] = useState("");
@@ -26,12 +27,37 @@ export const TasksContextProvider = ({ children }) => {
       }
       const data = await fetchTasks({ token });
       if (data) setTasks(data);
+      console.log(data);
     } catch (err) {
       setError(err.message);
     } finally {
       setLoading(false);
     }
   }, []);
+
+  const addTask = async ({ title, topic, status, description, date }) => {
+    try {
+      setLoading(true);
+      const token = getToken();
+      if (!token) {
+        setError("Токен авторизации не найден");
+        return;
+      }
+
+      // Отправляем задачу на сервер
+      await apiAddTask({
+        token,
+        task: { title, topic, status, description, date },
+      });
+
+      // После успешного добавления обновляем список задач
+      await getTasks();
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     getTasks();
@@ -41,7 +67,7 @@ export const TasksContextProvider = ({ children }) => {
     <TasksContext.Provider
       loading={loading}
       error={error}
-      value={{ tasks: tasks }}
+      value={{ tasks, setTasks, getTasks, addTask }}
     >
       {children}
     </TasksContext.Provider>

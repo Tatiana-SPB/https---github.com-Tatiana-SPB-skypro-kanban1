@@ -17,7 +17,7 @@ export async function fetchTasks({ token }) {
 
 //Функция добавления нового слова:
 
-export async function postTask({ token, task }) {
+export async function apiAddTask({ token, task }) {
   try {
     const response = await axios.post(API_URL, task, {
       headers: {

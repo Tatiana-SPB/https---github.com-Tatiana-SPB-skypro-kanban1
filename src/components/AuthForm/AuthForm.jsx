@@ -18,7 +18,6 @@ import { useAuth } from "../../context/contextAPI.js";
 export function AuthForm({ isSignUp }) {
   const { theme } = useContext(ThemeContext);
   const { enter } = useAuth();
-  console.log({ enter });
 
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -76,18 +75,13 @@ export function AuthForm({ isSignUp }) {
     if (!validateForm()) {
       return;
     }
-    if (typeof enter !== "function") {
-      console.error("Функция enter не доступна");
-      setError("Ошибка авторизации: функция входа недоступна");
-      return;
-    }
 
     try {
       const data = !isSignUp
         ? await signIn({ login: formData.login, password: formData.password })
         : await signUp(formData);
       if (data) {
-        if (enter( data )) {
+        if (enter(data)) {
           localStorage.setItem("userInfo", JSON.stringify(data));
           navigate("/");
         } else {

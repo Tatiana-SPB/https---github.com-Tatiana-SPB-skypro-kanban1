@@ -13,7 +13,6 @@ import { AuthContext } from "./context/contextAPI.js";
 
 function AppRoutes() {
   const { user } = useContext(AuthContext);
-  console.log({ user });
   return (
     <Router>
       <Routes>

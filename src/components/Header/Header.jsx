@@ -52,7 +52,7 @@ export function Header() {
               aria-haspopup="true"
               aria-expanded={isPopUser ? "true" : "false"}
             >
-              {user ? user.login : "Гость"}{" "}
+              {user ? user.name : "Гость"}{" "}
             </Sheader__user>
 
             <PopUser isPopUser={isPopUser} />

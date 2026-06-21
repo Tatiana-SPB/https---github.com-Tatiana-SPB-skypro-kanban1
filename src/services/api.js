@@ -4,12 +4,12 @@ const API_URL = "https://wedev-api.sky.pro/api/kanban";
 
 export async function fetchTasks({ token }) {
   try {
-    const data = await axios.get(API_URL, {
+    const response = await axios.get(API_URL, {
       headers: {
         Authorization: "Bearer " + token,
       },
     });
-    return data.data.tasks;
+    return response.data.tasks;
   } catch (error) {
     throw new Error(error.message);
   }
@@ -35,12 +35,12 @@ export async function apiAddTask({ token, task }) {
 
 export async function fetchTask({ token, id }) {
   try {
-    const response = await axios.get(API_URL + id, {
+    const response = await axios.get(`${API_URL}/${id}`, {
       headers: {
         Authorization: "Bearer " + token,
       },
     });
-    return response.data.task;
+    return response.data;
   } catch (error) {
     throw new Error(error.message);
   }
@@ -64,7 +64,7 @@ export async function editTask({ token, id, task }) {
 
 //Функция удаления слова:
 
-export async function deleteWord({ token, id }) {
+export async function remove({ token, id }) {
   try {
     await axios.delete(`${API_URL}/${id}`, {
       headers: {

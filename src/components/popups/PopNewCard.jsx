@@ -1,26 +1,23 @@
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { Calendar } from "../Calendar/Calendar.jsx";
 import { useContext, useState } from "react";
-import { apiAddTask } from "../../services/api.js";
 import { TasksContext } from "../../context/contextAPI.js";
 
 export function PopNewCard() {
   const navigate = useNavigate();
-  const { getTasks } = useContext(TasksContext);
+  const { addTask } = useContext(TasksContext);
 
   const [formTask, setFormTask] = useState({
     title: "",
     topic: "",
-    status: "",
     description: "",
-    date: "",
+    date: new Date(),
+    status: "Без статуса",
   });
 
-  const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
-    e.preventDefault();
     const { name, value } = e.target;
     setFormTask({
       ...formTask,
@@ -28,38 +25,25 @@ export function PopNewCard() {
     });
   };
 
-  const handleSubmit = async (e) => {
+  const handleChangeTopic = (e) => {
+    const { value } = e.target;
+    console.log(e);
+    setFormTask({
+      ...formTask,
+      topic: value,
+    });
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
     setIsLoading(true);
-    setError("");
-
-    try {
-      // Получаем токен из localStorage
-      const userInfo = localStorage.getItem("userInfo");
-      if (!userInfo) {
-        setError("Пользователь не авторизован");
-        return;
-      }
-
-      const { token } = JSON.parse(userInfo);
-
-      // Отправляем задачу на сервер
-      await apiAddTask({
-        token,
-        task: formTask,
-      });
-
-      // Обновляем список задач
-      await getTasks();
-
-      // Перенаправляем на главную страницу
-      navigate("/");
-    } catch (err) {
-      setError(err.message || "Ошибка при создании задачи");
-    } finally {
-      setIsLoading(false);
-    }
   };
+
+  const handleOnClick = () => {
+    addTask(formTask);
+    navigate("/");
+  };
+
   console.log(formTask);
 
   return (
@@ -71,14 +55,6 @@ export function PopNewCard() {
             <Link to="/" className="pop-new-card__close">
               &#10006;
             </Link>
-            {error && (
-              <div
-                className="error-message"
-                style={{ color: "red", marginBottom: "10px" }}
-              >
-                {error}
-              </div>
-            )}
 
             <div className="pop-new-card__wrap">
               <form
@@ -93,7 +69,7 @@ export function PopNewCard() {
                   <input
                     className="form-new__input"
                     type="text"
-                    name="name"
+                    name="title"
                     id="formTitle"
                     placeholder="Введите название задачи..."
                     value={formTask.title}
@@ -106,7 +82,7 @@ export function PopNewCard() {
                   </label>
                   <textarea
                     className="form-new__area"
-                    name="text"
+                    name="description"
                     id="textArea"
                     placeholder="Введите описание задачи..."
                     value={formTask.description}
@@ -145,11 +121,7 @@ export function PopNewCard() {
 
                   <Calendar />
 
-                  <input
-                    type="hidden"
-                    id="datepick_value"
-                    value={formTask.date}
-                  />
+                  <input type="hidden" id="datepick_value" />
                   <div className="calendar__period">
                     <p className="calendar__p date-end">
                       Выберите срок исполнения{" "}
@@ -162,19 +134,27 @@ export function PopNewCard() {
             <div className="pop-new-card__categories categories">
               <p className="categories__p subttl">Категория</p>
               <div className="categories__themes">
-                <div
-                  className="categories__theme _orange _active-category"
-                  value={formTask.topic}
-                  onChange={handleChange}
+                <button
+                  className={`categories__theme _orange ${formTask.topic === "Web Design" ? "_active-category" : ""}`}
+                  value="Web Design"
+                  onClick={handleChangeTopic}
                 >
-                  <p className="_orange">Web Design</p>
-                </div>
-                <div className="categories__theme _green">
-                  <p className="_green">Research</p>
-                </div>
-                <div className="categories__theme _purple">
-                  <p className="_purple">Copywriting</p>
-                </div>
+                  Web Design
+                </button>
+                <button
+                  className={`categories__theme _green ${formTask.topic === "Research" ? "_active-category" : ""}`}
+                  value="Research"
+                  onClick={handleChangeTopic}
+                >
+                  Research
+                </button>
+                <button
+                  className={`categories__theme _purple ${formTask.topic === "Copywriting" ? "_active-category" : ""}`}
+                  value="Copywriting"
+                  onClick={handleChangeTopic}
+                >
+                  Copywriting
+                </button>
               </div>
             </div>
             <button
@@ -182,6 +162,7 @@ export function PopNewCard() {
               className="form-new__create _hover01"
               id="btnCreate"
               disabled={isLoading}
+              onClick={handleOnClick}
             >
               {isLoading ? "Создание..." : "Создать задачу"}
             </button>

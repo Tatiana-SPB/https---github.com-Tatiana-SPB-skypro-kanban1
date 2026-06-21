@@ -9,25 +9,28 @@ import {
   Scards__card,
   Scards__item,
 } from "./CardsItem.styled.js";
+import { TasksContext } from "../../context/contextAPI.js";
+import { useContext } from "react";
 
-export const SCardsItem = ({ card }) => {
+export const SCardsItem = ({ task }) => {
   const navigate = useNavigate();
+  const { getTask } = useContext(TasksContext);
 
-  const handleLogin = (e) => {
+  const handleCardClick = (e) => {
     e.preventDefault();
-    if (card) {
-      navigate(`/card/${card.id}`);
-    }
+    if (!task) return;
+    getTask({ id: task._id });
+    navigate(`/task/${task._id}`);
   };
 
-  if (card) {
+  if (task) {
     return (
       <>
-        <Scards__item onClick={handleLogin} key={card.id}>
+        <Scards__item onClick={handleCardClick} key={task.id}>
           <Scards__card>
             <Scard__group>
-              <Scard__theme theme={card.topic}>
-                <p>{card.topic}</p>
+              <Scard__theme theme={task.topic}>
+                <p>{task.topic}</p>
               </Scard__theme>
               <a href="#popBrowse" target="_self">
                 <Scard__btn>
@@ -39,7 +42,7 @@ export const SCardsItem = ({ card }) => {
             </Scard__group>
             <Scard__content>
               <a href="" target="_blank">
-                <Scard__title>{card.title}</Scard__title>
+                <Scard__title>{task.title}</Scard__title>
               </a>
               <Scard__date>
                 <svg
@@ -70,7 +73,7 @@ export const SCardsItem = ({ card }) => {
                     </clipPath>
                   </defs>
                 </svg>
-                <p>{card.date}</p>
+                <p>{task.date}</p>
               </Scard__date>
             </Scard__content>
           </Scards__card>

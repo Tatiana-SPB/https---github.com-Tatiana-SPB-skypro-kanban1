@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { SColumn } from "../Column/Column.jsx";
 import {
   Scontainer,
@@ -11,6 +11,7 @@ import { TasksContext, ThemeContext } from "../../context/contextAPI.js";
 export function SMain({ loading, error }) {
   const tasksContext = useContext(TasksContext);
   const { theme } = useContext(ThemeContext);
+  // const { tasksContext, tasks, getTasks } = useContext(TasksContext);
 
   const statuses = [
     "Без статуса",
@@ -20,10 +21,21 @@ export function SMain({ loading, error }) {
     "Готово",
   ];
 
-  const groupedCards = statuses.reduce((acc, status) => {
-    acc[status] = tasksContext.tasks.filter((card) => card.status === status);
+  //const validTasks = Array.isArray(tasks) ? tasks : [];
+
+  const tasksForColumns = statuses.reduce((acc, status) => {
+    acc[status] = tasksContext.tasks.filter((task) => task.status === status);
     return acc;
   }, {});
+
+  /*const groupedCards = statuses.reduce((acc, status) => {
+    acc[status] = tasks.filter((task) => task.status === status);
+    return acc;
+  }, {});*/
+
+  useEffect(() => {
+    tasksContext.getTasks();
+  }, []);
 
   if (loading) {
     return (
@@ -61,7 +73,7 @@ export function SMain({ loading, error }) {
               <SColumn
                 key={status}
                 status={status}
-                cards={groupedCards[status]}
+                tasks={tasksForColumns[status]}
               />
             ))}
           </Smain__content>

@@ -72,6 +72,6 @@ export async function remove({ token, id }) {
       },
     });
   } catch (error) {
-    throw new Error(error.message);
+    throw Error(error.message);
   }
 }

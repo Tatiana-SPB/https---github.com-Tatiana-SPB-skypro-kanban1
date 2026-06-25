@@ -28,8 +28,6 @@ export const TasksContextProvider = ({ children }) => {
       }
       const data = await fetchTasks({ token });
       if (data) setTasks(data);
-      console.log(data);
-      console.log(token);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -51,8 +49,6 @@ export const TasksContextProvider = ({ children }) => {
         return;
       }
       setCurrentTask(task);
-      console.log(token);
-      console.log(id);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -83,18 +79,21 @@ export const TasksContextProvider = ({ children }) => {
   };
 
   const deleteTask = async ({ id }) => {
-    try {
-      setLoading(true);
-      setError(null);
+    setLoading(true);
+    setError(null);
 
-      const token = await getToken();
-      if (!token) {
-        setError("Токен авторизации не найден");
-        return;
+    const token = getToken();
+    if (!token) {
+      setError("Требуется авторизация");
+      setLoading(false);
+      return;
+    }
+    try {
+      await remove({ token, id });
+      setTasks((prevTasks) => prevTasks.filter((t) => t._id !== id));
+      if (currentTask?.task?._id === id) {
+        setCurrentTask(null);
       }
-      console.log(token);
-      remove({ token, id });
-     
     } catch (err) {
       console.error("Ошибка удаления задачи:", err);
       if (err.response?.status === 401) {

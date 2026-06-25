@@ -255,10 +255,11 @@ export const Snav__action = styled.div`
   }
 `;
 
-export const Scalendar__p = styled.div`
+export const Scalendar__p = styled.p`
   color: #94a6be;
   font-size: 10px;
   line-height: 1;
+  padding-top: 14px;
 
   & span {
     color: #000000;

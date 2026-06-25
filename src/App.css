@@ -286,6 +286,7 @@
   flex-wrap: wrap;
   align-items: flex-start;
   justify-content: space-between;
+  gap: 8px;
 }
 .pop-browse__btn-browse button,
 .pop-browse__btn-edit button {
@@ -353,7 +354,6 @@
 ._dark {
   display: none;
 }
-
 
 @media screen and (max-width: 660px) {
   .pop-new-card {

@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useState } from "react";
+import { useContext } from "react";
 import MainPage from "./pages/Main.jsx";
 import SignInPage from "./pages/SignInPage.jsx";
 import SignUpPage from "./pages/SignUpPage.jsx";
@@ -9,37 +9,22 @@ import NewCard from "./pages/PopNewCard.jsx";
 import NotFoundPage from "./pages/NotFound.jsx";
 import PrivateRoute from "./components/PrivateRoute.jsx";
 import { PopExit } from "./components/popups/PopExit.jsx";
+import { AuthContext } from "./context/contextAPI.js";
 
 function AppRoutes() {
-  const [isAuth, setIsAuth] = useState(() => {
-    const userInfo = localStorage.getItem("userInfo");
-    if (userInfo) {
-      try {
-        const { token } = JSON.parse(userInfo);
-        return !!token;
-      } catch (error) {
-        console.error("Ошибка парсинга userInfo:", error);
-        return false;
-      }
-    }
-    return false;
-  });
-
+  const { user } = useContext(AuthContext);
   return (
     <Router>
       <Routes>
-        <Route element={<PrivateRoute isAuth={isAuth} />}>
-          <Route
-            path="/"
-            element={<MainPage isAuth={isAuth} setIsAuth={setIsAuth} />}
-          >
-            <Route path="/card/:id" element={<Browse />} />
+        <Route element={<PrivateRoute isAuth={!!user} />}>
+          <Route path="/" element={<MainPage />}>
+            <Route path="/task/:id" element={<Browse />} />
             <Route path="/add" element={<NewCard />} />
           </Route>
-          <Route path="/exit" element={<PopExit setIsAuth={setIsAuth} />} />
+          <Route path="/exit" element={<PopExit />} />
         </Route>
 
-        <Route path="/login" element={<SignInPage setIsAuth={setIsAuth} />} />
+        <Route path="/login" element={<SignInPage />} />
 
         <Route path="/register" element={<SignUpPage />} />
 

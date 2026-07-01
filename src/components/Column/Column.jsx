@@ -1,8 +1,8 @@
+import { TasksContext } from "../../context/contextAPI.js";
 import SCardsItem from "../CardsItem/CardsItem.jsx";
 import { Scards, Scolumn__title, Smain__column } from "./Column.styled.js";
 
-export function SColumn({ status, cards }) {
-  if (cards.length > 0) {
+export function SColumn({ status, tasks }) {
     return (
       <Smain__column>
         <Scolumn__title>
@@ -10,23 +10,13 @@ export function SColumn({ status, cards }) {
         </Scolumn__title>
         <Scards>
           <div>
-            {cards.map((cardEl) => (
-              <SCardsItem key={cardEl.id} card={cardEl} />
+            {tasks.map((task) => (
+              <SCardsItem key={task._id} task={task} />
             ))}
           </div>
         </Scards>
       </Smain__column>
-    );
-  } else {
-    return (
-      <Smain__column>
-        <Scolumn__title>
-          <p>{status}</p>
-        </Scolumn__title>
-        <Scards>Задач нет </Scards>
-      </Smain__column>
-    );
-  }
+    )
 }
 
 export default SColumn;

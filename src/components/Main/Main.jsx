@@ -1,13 +1,18 @@
+import { useContext, useEffect } from "react";
 import { SColumn } from "../Column/Column.jsx";
-//import { cardList } from "../../data.js";
 import {
   Scontainer,
   Smain,
   Smain__block,
   Smain__content,
 } from "./Main.styled.js";
+import { TasksContext, ThemeContext } from "../../context/contextAPI.js";
+import { Scolumn__title } from "../Column/Column.styled.js";
 
-export function SMain({ loading, error, tasks }) {
+export function SMain({ loading, error }) {
+  const tasksContext = useContext(TasksContext);
+  const { theme } = useContext(ThemeContext);
+
   const statuses = [
     "Без статуса",
     "Нужно сделать",
@@ -16,10 +21,14 @@ export function SMain({ loading, error, tasks }) {
     "Готово",
   ];
 
-  const groupedCards = statuses.reduce((acc, status) => {
-    acc[status] = tasks.filter((card) => card.status === status);
+  const tasksForColumns = statuses.reduce((acc, status) => {
+    acc[status] = tasksContext.tasks.filter((task) => task.status === status);
     return acc;
   }, {});
+
+  useEffect(() => {
+    tasksContext.getTasks();
+  }, []);
 
   if (loading) {
     return (
@@ -46,23 +55,35 @@ export function SMain({ loading, error, tasks }) {
     );
   }
 
-  return (
-    <Smain>
-      <Scontainer>
-        <Smain__block>
-          <Smain__content>
-            {statuses.map((status) => (
-              <SColumn
-                key={status}
-                status={status}
-                cards={groupedCards[status]}
-              />
-            ))}
-          </Smain__content>
-        </Smain__block>
-      </Scontainer>
-    </Smain>
-  );
+  if (tasksContext.tasks.length > 0) {
+    return (
+      <Smain
+        style={{ backgroundColor: theme === "light" ? "#151419" : "#eaeef6" }}
+      >
+        <Scontainer>
+          <Smain__block>
+            <Smain__content>
+              {statuses.map((status) => (
+                <SColumn
+                  key={status}
+                  status={status}
+                  tasks={tasksForColumns[status]}
+                />
+              ))}
+            </Smain__content>
+          </Smain__block>
+        </Scontainer>
+      </Smain>
+    );
+  } else {
+    return (
+      <Smain>
+        <Scolumn__title style={{ textAlign: "center" }}>
+          <p>Задач нет</p>
+        </Scolumn__title>
+      </Smain>
+    );
+  }
 }
 
 export default SMain;

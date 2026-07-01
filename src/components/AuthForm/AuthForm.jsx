@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
   Scontainer,
   Smodal,
@@ -12,8 +12,13 @@ import {
 } from "./AuthForm.styled.js";
 import { Link, useNavigate } from "react-router-dom";
 import { signIn, signUp } from "../../services/auth.js";
+import { ThemeContext } from "../../context/contextAPI.js";
+import { useAuth } from "../../context/contextAPI.js";
 
-export function AuthForm({ isSignUp, setIsAuth = () => {} }) {
+export function AuthForm({ isSignUp }) {
+  const { theme } = useContext(ThemeContext);
+  const { enter } = useAuth();
+
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
@@ -70,20 +75,17 @@ export function AuthForm({ isSignUp, setIsAuth = () => {} }) {
     if (!validateForm()) {
       return;
     }
+
     try {
       const data = !isSignUp
         ? await signIn({ login: formData.login, password: formData.password })
         : await signUp(formData);
-
       if (data) {
-        if (typeof setIsAuth === "function") {
-          setIsAuth(true);
+        if (enter(data)) {
           localStorage.setItem("userInfo", JSON.stringify(data));
           navigate("/");
         } else {
-          console.error(
-            "setIsAuth не является функцией. Проверьте передачу пропса из родительского компонента.",
-          );
+          setError("Неверные учётные данные");
         }
       }
     } catch (err) {
@@ -91,11 +93,22 @@ export function AuthForm({ isSignUp, setIsAuth = () => {} }) {
     }
   };
   return (
-    <Swrapper>
+    <Swrapper
+      style={{ backgroundColor: theme === "light" ? "#151419" : "#eaeef6" }}
+    >
       <Scontainer>
         <Smodal>
-          <Smodal__block>
-            <Smodal__ttl>{isSignUp ? "Регистрация" : "Вход"}</Smodal__ttl>
+          <Smodal__block
+            style={{
+              backgroundColor: theme === "light" ? "##20202C" : "#ffffff",
+              border: theme === "light" ? "###4E5566" : "#d4dbe5",
+            }}
+          >
+            <Smodal__ttl
+              style={{ color: theme === "light" ? "#FFFFFF" : "#000000" }}
+            >
+              {isSignUp ? "Регистрация" : "Вход"}
+            </Smodal__ttl>
             <Smodal__form id="form" action="#" onSubmit={handleSubmit}>
               {isSignUp && (
                 <Smodal__input
@@ -126,8 +139,7 @@ export function AuthForm({ isSignUp, setIsAuth = () => {} }) {
                 value={formData.password}
                 onChange={handleChange}
               />
-              <p style={{ color: "red" }}>{error}</p>
-
+              {error && <p style={{ color: "red" }}>{error}</p>}
               <Smodal__a id="SignUpEnter" $fullWidth={true}>
                 {isSignUp ? "Зарегистрироваться" : "Войти"}
               </Smodal__a>

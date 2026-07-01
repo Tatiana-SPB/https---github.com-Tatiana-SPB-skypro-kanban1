@@ -7,11 +7,24 @@ import {
   Smain__content,
 } from "./Main.styled.js";
 import { TasksContext, ThemeContext } from "../../context/contextAPI.js";
-import { Scolumn__title } from "../Column/Column.styled.js";
+import {
+  Card_load,
+  Item1__load,
+  Item1_left_load,
+  Item1_right_load,
+  Item2__load,
+  Item3__load,
+  Scolumn__title,
+} from "../Column/Column.styled.js";
 
-export function SMain({ loading, error }) {
+export function SMain() {
   const tasksContext = useContext(TasksContext);
   const { theme } = useContext(ThemeContext);
+  const { loading, tasks } = useContext(TasksContext);
+
+  useEffect(() => {
+    tasksContext.getTasks();
+  }, []);
 
   const statuses = [
     "Без статуса",
@@ -21,69 +34,73 @@ export function SMain({ loading, error }) {
     "Готово",
   ];
 
+  const safeTasks = Array.isArray(tasks) ? tasks : [];
+
   const tasksForColumns = statuses.reduce((acc, status) => {
-    acc[status] = tasksContext.tasks.filter((task) => task.status === status);
+    acc[status] = safeTasks.filter((task) => task.status === status);
     return acc;
   }, {});
 
-  useEffect(() => {
-    tasksContext.getTasks();
-  }, []);
-
   if (loading) {
     return (
-      <div
-        style={{
-          color: "green",
-          fontSize: "20px",
-          fontWeight: 600,
-          lineHeight: 1,
-          textAlign: "center",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          width: "100%",
-        }}
-      >
-        Данные загружаются
-      </div>
-    );
-  }
-  if (error) {
-    return (
-      <div style={{ color: "red", textAlign: "center" }}>Ошибка: {error}</div>
-    );
-  }
-
-  if (tasksContext.tasks.length > 0) {
-    return (
-      <Smain
-        style={{ backgroundColor: theme === "light" ? "#151419" : "#eaeef6" }}
-      >
+      <Smain>
         <Scontainer>
           <Smain__block>
             <Smain__content>
-              {statuses.map((status) => (
-                <SColumn
-                  key={status}
-                  status={status}
-                  tasks={tasksForColumns[status]}
-                />
-              ))}
+              <Card_load>
+                <Item1__load>
+                  <Item1_left_load></Item1_left_load>
+                  <Item1_right_load></Item1_right_load>
+                </Item1__load>
+                <Item2__load></Item2__load>
+                <Item3__load></Item3__load>
+              </Card_load>
             </Smain__content>
           </Smain__block>
         </Scontainer>
       </Smain>
     );
-  } else {
+  }
+  if (!safeTasks.length) {
     return (
-      <Smain>
-        <Scolumn__title style={{ textAlign: "center" }}>
-          <p>Задач нет</p>
-        </Scolumn__title>
+      <Smain
+        style={{
+          backgroundColor: theme === "light" ? "#151419" : "#eaeef6",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: "80vh",
+        }}
+      >
+        <Scontainer style={{ textAlign: "center" }}>
+          <h3>Доска пуста</h3>
+          <p>
+            Здесь пока нет ни одной задачи. Добавьте первую, чтобы начать
+            работу!
+          </p>
+        </Scontainer>
       </Smain>
     );
   }
+  return (
+    <Smain
+      style={{ backgroundColor: theme === "light" ? "#151419" : "#eaeef6" }}
+    >
+      <Scontainer>
+        <Smain__block>
+          <Smain__content>
+            {statuses.map((status) => (
+              <SColumn
+                key={status}
+                status={status}
+                tasks={tasksForColumns[status]}
+              />
+            ))}
+          </Smain__content>
+        </Smain__block>
+      </Scontainer>
+    </Smain>
+  );
 }
 
 export default SMain;

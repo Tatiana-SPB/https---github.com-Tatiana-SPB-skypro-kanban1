@@ -3,7 +3,6 @@ import { AuthContext, TasksContext } from "./contextAPI.js";
 import { apiAddTask, fetchTask, fetchTasks, remove } from "../services/api";
 
 export const TasksContextProvider = ({ children }) => {
-  //const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const [tasks, setTasks] = useState([]);
   const [currentTask, setCurrentTask] = useState(null);

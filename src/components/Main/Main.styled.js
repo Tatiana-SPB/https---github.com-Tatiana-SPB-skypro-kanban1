@@ -32,8 +32,10 @@ export const Smain__block = styled.div`
 export const Smain__content = styled.div`
   width: 100%;
   display: flex;
+  gap: 10px;
 
   @media screen and (max-width: 1200px) {
     display: block;
   }
 `;
+

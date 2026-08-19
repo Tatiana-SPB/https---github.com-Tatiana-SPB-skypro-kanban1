@@ -1,7 +1,7 @@
 Приложение для управления задачами.
 Проект расположен по ссылке:
 
-https://github.com/Tatiana-SPB/webdev-cw-instapro
+https://github.com/Tatiana-SPB/https---github.com-Tatiana-SPB-skypro-kanban1
 
 Приложение- визуальный инструмент для управления задачами.
 

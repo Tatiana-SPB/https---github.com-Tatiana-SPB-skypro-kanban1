@@ -250,6 +250,7 @@ export const Scategories__theme_orange = styled.button`
   height: 30px;
   padding: 8px 20px;
   border-radius: 24px;
+  margin-right: 7px;
   background-color: #ffe4c2;
   color: #ff6d00;
   opacity: ${(props) => (props.$active ? 1 : 0.4)};

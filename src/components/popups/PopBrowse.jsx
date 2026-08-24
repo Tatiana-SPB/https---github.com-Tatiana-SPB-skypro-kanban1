@@ -1,4 +1,4 @@
-import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { TasksContext } from "../../context/contextAPI.js";
 import { useContext, useEffect, useState } from "react";
 import { editTask, fetchTasks } from "../../services/api.js";
@@ -29,10 +29,9 @@ import {
 export function PopBrowse() {
   const [isEditing, setIsEditing] = useState(false);
   const [editedTask, setEditedTask] = useState(null);
-  const [date, setDate] = useState(new Date());
   const { id } = useParams();
   const navigate = useNavigate();
-  const { currentTask, setCurrentTask, getTask, deleteTask } =
+  const { currentTask, setCurrentTask, getTask, deleteTask, setTasks } =
     useContext(TasksContext);
 
   const getToken = () => {
@@ -85,6 +84,15 @@ export function PopBrowse() {
     fetchTasks({ token });
   };
 
+  const handleDateChange = (newDate) => {
+    if (isEditing) {
+      setEditedTask((prev) => ({
+        ...prev,
+        date: newDate,
+      }));
+    }
+  };
+
   const handleEdit = () => {
     if (currentTask) {
       setEditedTask({ ...currentTask.task });
@@ -116,7 +124,7 @@ export function PopBrowse() {
     }
 
     try {
-      await editTask({
+      const updatedTasks = await editTask({
         token,
         id: editedTask._id,
         task: {
@@ -132,6 +140,8 @@ export function PopBrowse() {
         ...prev,
         task: editedTask,
       }));
+
+      setTasks(updatedTasks);
 
       setIsEditing(false);
       setEditedTask(null);
@@ -176,36 +186,38 @@ export function PopBrowse() {
                 {!isEditing ? (
                   <div className="status__themes">
                     <div
-                      key={status}
                       className="status__theme _active-color"
-                      onClick={() => isEditing && handleStatusChange(status)}
-                      style={{ cursor: isEditing ? "pointer" : "default" }}
+                      style={{ cursor: "default" }}
                     >
                       <p>{currentTask.task.status}</p>
                     </div>
                   </div>
                 ) : (
                   <div className="status__themes">
-                    {statuses.map((status) => (
-                      <div
-                        key={status}
-                        className={`status__theme ${
-                          editedTask?.status === status ? "_active" : ""
-                        }`}
-                        onClick={() => isEditing && handleStatusChange(status)}
-                        style={{ cursor: isEditing ? "pointer" : "default" }}
-                      >
-                        <p
-                          className={
-                            editedTask?.status === status ? "_active-color" : ""
-                          }
+                    {statuses.map((status) => {
+                      const isSelected = editedTask?.status === status;
+
+                      return (
+                        <div
+                          key={status}
+                          className="status__theme"
+                          onClick={() => handleStatusChange(status)}
+                          style={{
+                            backgroundColor: isSelected
+                              ? "#94a6be"
+                              : "transparent",
+                            color: isSelected ? "#ffffff" : "#333333",
+                          }}
                         >
-                          {status}
-                        </p>
-                      </div>
-                    ))}
+                          <p style={{ margin: 0, lineHeight: "1.2" }}>
+                            {status}
+                          </p>
+                        </div>
+                      );
+                    })}
                   </div>
                 )}
+
                 <PopBrowse_wrap>
                   <PopBrowse_form id="formBrowseCard" action="#">
                     <PopBrowse_form_block>
@@ -231,8 +243,10 @@ export function PopBrowse() {
                   <div className="pop-new-card__calendar calendar">
                     <p className="calendar__ttl subttl">Даты</p>
                     <StyledCalendar
-                      value={date}
-                      onChange={(newDate) => setDate(newDate)}
+                      value={
+                        isEditing ? editedTask?.date : currentTask.task.date
+                      }
+                      onChange={handleDateChange}
                       locale="ru"
                       formats={{
                         navigationLabel: (date, locale) => {
@@ -246,7 +260,14 @@ export function PopBrowse() {
                     />
                     <Scalendar__period>
                       <Scalendar__p>
-                        Срок исполнения: <span>{formatDate(date)}</span>
+                        Срок исполнения:{" "}
+                        <span>
+                          {formatDate(
+                            isEditing
+                              ? editedTask?.date || currentTask.task.date
+                              : currentTask.task.date,
+                          )}
+                        </span>
                       </Scalendar__p>
                     </Scalendar__period>
                   </div>

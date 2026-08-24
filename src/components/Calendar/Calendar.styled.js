@@ -48,10 +48,10 @@ export const StyledCalendar = styled(Calendar)`
     padding-right: 16px;
   }
 
-  react-calendar__navigation button {
+  .react-calendar__navigation button {
     min-width: 14px;
     background: none;
-    text-align: right;
+    text-align: left;
   }
 
   .react-calendar__navigation__label {

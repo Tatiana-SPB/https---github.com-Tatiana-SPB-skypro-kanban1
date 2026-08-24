@@ -1,4 +1,4 @@
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { StyledCalendar } from "../Calendar/Calendar.styled.js";
 import { useContext, useState } from "react";
 import { TasksContext } from "../../context/contextAPI.js";
@@ -31,7 +31,6 @@ import {
 export function PopNewCard() {
   const navigate = useNavigate();
   const { addTask } = useContext(TasksContext);
-  const [date, setDate] = useState(new Date());
 
   function formatDate(date) {
     const d = new Date(date);
@@ -180,8 +179,13 @@ export function PopNewCard() {
               <Scalendar>
                 <Scalendar__ttl>Даты</Scalendar__ttl>
                 <StyledCalendar
-                  value={date}
-                  onChange={(newDate) => setDate(newDate)}
+                  value={formTask.date}
+                  onChange={(newDate) =>
+                    setFormTask((prev) => ({
+                      ...prev,
+                      date: newDate,
+                    }))
+                  }
                   locale="ru"
                   formats={{
                     navigationLabel: (date, locale) => {
@@ -194,11 +198,11 @@ export function PopNewCard() {
                   }}
                 />
                 <Scalendar__period>
-                  {!date ? (
+                  {!formTask.date ? (
                     <Scalendar__p>Выберите срок исполнения</Scalendar__p>
                   ) : (
                     <Scalendar__p>
-                      Срок исполнения: <span>{formatDate(date)}</span>
+                      Срок исполнения: <span>{formatDate(formTask.date)}</span>
                     </Scalendar__p>
                   )}
                 </Scalendar__period>

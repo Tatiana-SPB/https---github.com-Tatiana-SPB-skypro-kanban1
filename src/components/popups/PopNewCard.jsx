@@ -1,13 +1,36 @@
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { StyledCalendar } from "../Calendar/Calendar.styled.js";
 import { useContext, useState } from "react";
 import { TasksContext } from "../../context/contextAPI.js";
-import { Scalendar__p, Scalendar__period } from "./PopNewCard.styled.js";
+import {
+  Scalendar,
+  Scalendar__p,
+  Scalendar__period,
+  Scalendar__ttl,
+  Scategories,
+  Scategories__p,
+  Scategories__themes,
+  Scategories__theme_orange,
+  Scategories__theme_green,
+  Scategories__theme_purple,
+  Sform_new__area,
+  Sform_new__block,
+  Sform_new__input,
+  SpopNewCard,
+  SpopNewCard_block,
+  SpopNewCard_close,
+  SpopNewCard_container,
+  SpopNewCard_content,
+  SpopNewCard_form,
+  SpopNewCard_ttl,
+  SpopNewCard_wrap,
+  Ssubttl,
+  Sform_new__create,
+} from "./PopNewCard.styled.js";
 
 export function PopNewCard() {
   const navigate = useNavigate();
   const { addTask } = useContext(TasksContext);
-  const [date, setDate] = useState(new Date());
 
   function formatDate(date) {
     const d = new Date(date);
@@ -26,6 +49,39 @@ export function PopNewCard() {
   });
 
   const [isLoading, setIsLoading] = useState(false);
+  const [errors, setErrors] = useState({
+    title: "",
+    description: "",
+    topic: "",
+  });
+
+  const isBlank = (str) => !str || str.trim().length === 0;
+
+  const validateForm = () => {
+    const newErrors = { title: "", description: "", topic: "" };
+    let isValid = true;
+
+    if (isBlank(formTask.title)) {
+      newErrors.title = "Введите название задачи";
+      console.log("ошибка1");
+      isValid = false;
+    }
+
+    if (isBlank(formTask.description)) {
+      newErrors.description = "Укажите описание задачи";
+      console.log("ошибка2");
+      isValid = false;
+    }
+
+    if (!formTask.topic) {
+      newErrors.topic = "Не выбрана категория";
+      console.log("ошибка3");
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -48,60 +104,88 @@ export function PopNewCard() {
     setIsLoading(true);
   };
 
-  const handleOnClick = () => {
-    addTask(formTask);
-    navigate("/");
+  const handleOnClick = async (e) => {
+    e.preventDefault();
+    if (!validateForm()) {
+      return;
+    }
+    try {
+      addTask(formTask);
+      navigate("/");
+    } catch (err) {
+      setErrors(err.message);
+    }
   };
 
   return (
-    <div className="pop-new-card" id="popNewCard">
-      <div className="pop-new-card__container">
-        <div className="pop-new-card__block">
-          <div className="pop-new-card__content">
-            <h3 className="pop-new-card__ttl">Создание задачи</h3>
-            <Link to="/" className="pop-new-card__close">
-              &#10006;
-            </Link>
+    <SpopNewCard>
+      <SpopNewCard_container>
+        <SpopNewCard_block>
+          <SpopNewCard_content>
+            <SpopNewCard_ttl>Создание задачи</SpopNewCard_ttl>
+            <SpopNewCard_close to="/">&#10006;</SpopNewCard_close>
 
-            <div className="pop-new-card__wrap">
-              <form
-                className="pop-new-card__form form-new"
-                id="formNewCard"
-                onSubmit={handleSubmit}
-              >
-                <div className="form-new__block">
-                  <label htmlFor="formTitle" className="subttl">
-                    Название задачи
-                  </label>
-                  <input
-                    className="form-new__input"
+            <SpopNewCard_wrap>
+              <SpopNewCard_form onSubmit={handleSubmit}>
+                <Sform_new__block>
+                  <Ssubttl>Название задачи</Ssubttl>
+                  <Sform_new__input
                     type="text"
                     name="title"
                     id="formTitle"
                     placeholder="Введите название задачи..."
                     value={formTask.title}
                     onChange={handleChange}
+                    style={errors.title ? { borderColor: "red" } : {}}
                   />
-                </div>
-                <div className="form-new__block">
-                  <label htmlFor="textArea" className="subttl">
-                    Описание задачи
-                  </label>
-                  <textarea
-                    className="form-new__area"
+                  {errors.title && (
+                    <span
+                      style={{
+                        color: "red",
+                        fontSize: "12px",
+                        marginTop: "-14px",
+                        display: "block",
+                        marginBottom: "24px",
+                      }}
+                    >
+                      {errors.title}
+                    </span>
+                  )}{" "}
+                </Sform_new__block>
+                <Sform_new__block>
+                  <Ssubttl>Описание задачи</Ssubttl>
+                  <Sform_new__area
                     name="description"
                     id="textArea"
                     placeholder="Введите описание задачи..."
                     value={formTask.description}
                     onChange={handleChange}
-                  ></textarea>
-                </div>
-              </form>
-              <div className="pop-new-card__calendar calendar">
-                <p className="calendar__ttl subttl">Даты</p>
+                    style={errors.description ? { borderColor: "red" } : {}}
+                  ></Sform_new__area>
+                  {errors.description && (
+                    <span
+                      style={{
+                        color: "red",
+                        fontSize: "12px",
+                        marginTop: "4px",
+                        display: "block",
+                      }}
+                    >
+                      {errors.description}
+                    </span>
+                  )}
+                </Sform_new__block>
+              </SpopNewCard_form>
+              <Scalendar>
+                <Scalendar__ttl>Даты</Scalendar__ttl>
                 <StyledCalendar
-                  value={date}
-                  onChange={(newDate) => setDate(newDate)}
+                  value={formTask.date}
+                  onChange={(newDate) =>
+                    setFormTask((prev) => ({
+                      ...prev,
+                      date: newDate,
+                    }))
+                  }
                   locale="ru"
                   formats={{
                     navigationLabel: (date, locale) => {
@@ -113,56 +197,67 @@ export function PopNewCard() {
                     },
                   }}
                 />
-                <input type="hidden" id="datepick_value" />
                 <Scalendar__period>
-                  {!date ? (
+                  {!formTask.date ? (
                     <Scalendar__p>Выберите срок исполнения</Scalendar__p>
                   ) : (
                     <Scalendar__p>
-                      Срок исполнения: <span>{formatDate(date)}</span>
+                      Срок исполнения: <span>{formatDate(formTask.date)}</span>
                     </Scalendar__p>
                   )}
                 </Scalendar__period>
-              </div>
-            </div>
-            <div className="pop-new-card__categories categories">
-              <p className="categories__p subttl">Категория</p>
-              <div className="categories__themes">
-                <button
-                  className={`categories__theme _orange ${formTask.topic === "Web Design" ? "_active-category" : ""}`}
+              </Scalendar>
+            </SpopNewCard_wrap>
+            <Scategories>
+              <Scategories__p>Категория</Scategories__p>
+              <Scategories__themes>
+                <Scategories__theme_orange
+                  $active={formTask.topic === "Web Design"}
                   value="Web Design"
                   onClick={handleChangeTopic}
                 >
                   Web Design
-                </button>
-                <button
-                  className={`categories__theme _green ${formTask.topic === "Research" ? "_active-category" : ""}`}
+                </Scategories__theme_orange>
+                <Scategories__theme_green
+                  $active={formTask.topic === "Research"}
                   value="Research"
                   onClick={handleChangeTopic}
                 >
                   Research
-                </button>
-                <button
-                  className={`categories__theme _purple ${formTask.topic === "Copywriting" ? "_active-category" : ""}`}
+                </Scategories__theme_green>
+
+                <Scategories__theme_purple
+                  $active={formTask.topic === "Copywriting"}
                   value="Copywriting"
                   onClick={handleChangeTopic}
                 >
                   Copywriting
-                </button>
-              </div>
-            </div>
-            <button
+                </Scategories__theme_purple>
+              </Scategories__themes>
+              {errors.topic && (
+                <span
+                  style={{
+                    color: "red",
+                    fontSize: "12px",
+                    marginTop: "8px",
+                    display: "block",
+                  }}
+                >
+                  {errors.topic}
+                </span>
+              )}
+            </Scategories>
+            <Sform_new__create
               type="submit"
-              className="form-new__create _hover01"
               id="btnCreate"
               disabled={isLoading}
               onClick={handleOnClick}
             >
               {isLoading ? "Создание..." : "Создать задачу"}
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+            </Sform_new__create>
+          </SpopNewCard_content>
+        </SpopNewCard_block>
+      </SpopNewCard_container>
+    </SpopNewCard>
   );
 }

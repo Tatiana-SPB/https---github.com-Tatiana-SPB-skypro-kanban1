@@ -32,8 +32,6 @@ export const Scontainer = styled.div`
 `;
 
 export const Sheader__nav = styled.div`
-  max-width: 306px;
-  padding: 10px;
   display: flex;
   align-items: center;
   justify-content: center;

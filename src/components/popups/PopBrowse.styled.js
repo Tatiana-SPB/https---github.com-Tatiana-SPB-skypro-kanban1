@@ -135,7 +135,7 @@ export const Sbtn_browse__close_btn_bg = styled(Link)`
   }
 `;
 
-export const Sstatus__theme_active = styled.div`
+export const _active = styled.div`
   background-color: #94a6be;
   border: 1px solid #94a6be;
 

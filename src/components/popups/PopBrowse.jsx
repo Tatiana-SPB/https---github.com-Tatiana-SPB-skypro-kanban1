@@ -1,4 +1,4 @@
-import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { TasksContext } from "../../context/contextAPI.js";
 import { useContext, useEffect, useState } from "react";
 import { editTask, fetchTasks } from "../../services/api.js";
@@ -17,14 +17,21 @@ import {
 } from "./PopBrowse.styled.js";
 import { StyledCalendar } from "../Calendar/Calendar.styled.js";
 import { Scalendar__p, Scalendar__period } from "./PopNewCard.styled.js";
+import {
+  Card_load,
+  Item1__load,
+  Item1_left_load,
+  Item1_right_load,
+  Item2__load,
+  Item3__load,
+} from "../Column/Column.styled.js";
 
 export function PopBrowse() {
   const [isEditing, setIsEditing] = useState(false);
   const [editedTask, setEditedTask] = useState(null);
-  const [date, setDate] = useState(new Date());
   const { id } = useParams();
   const navigate = useNavigate();
-  const { currentTask, setCurrentTask, getTask, deleteTask } =
+  const { currentTask, setCurrentTask, getTask, deleteTask, setTasks } =
     useContext(TasksContext);
 
   const getToken = () => {
@@ -48,11 +55,7 @@ export function PopBrowse() {
     if (id) {
       getTask({ id });
     }
-  }, []);
-
-  if (!currentTask || !currentTask.task) {
-    return <div className="loading">Загрузка...</div>;
-  }
+  }, [id]);
 
   const handleDescriptionChange = (e) => {
     const { value } = e.target;
@@ -79,6 +82,15 @@ export function PopBrowse() {
     deleteTask({ id });
     navigate("/");
     fetchTasks({ token });
+  };
+
+  const handleDateChange = (newDate) => {
+    if (isEditing) {
+      setEditedTask((prev) => ({
+        ...prev,
+        date: newDate,
+      }));
+    }
   };
 
   const handleEdit = () => {
@@ -112,7 +124,7 @@ export function PopBrowse() {
     }
 
     try {
-      await editTask({
+      const updatedTasks = await editTask({
         token,
         id: editedTask._id,
         task: {
@@ -129,6 +141,8 @@ export function PopBrowse() {
         task: editedTask,
       }));
 
+      setTasks(updatedTasks);
+
       setIsEditing(false);
       setEditedTask(null);
     } catch (err) {
@@ -140,142 +154,167 @@ export function PopBrowse() {
     setEditedTask(null);
     setIsEditing(false);
   };
-
-  return (
-    <SPopBrowse>
-      <PopBrowse_container>
-        <PopBrowse_block>
-          <PopBrowse_content>
-            <PopBrowse_topBlock>
-              <PopBrowse_ttl>{currentTask.task.title}</PopBrowse_ttl>
-              <div
-                className={`categories__theme theme-top ${getThemeClass(currentTask.task.topic)} _active-category`}
-              >
-                <p className={getThemeClass(currentTask.task.topic)}>
-                  {currentTask.task.topic}
-                </p>
-              </div>
-            </PopBrowse_topBlock>
-            <div className="pop-browse__status status">
-              <p className="status__p subttl">Статус</p>
-              {!isEditing ? (
-                <div className="status__themes">
-                  <div
-                    key={status}
-                    className="status__theme _active-color"
-                    onClick={() => isEditing && handleStatusChange(status)}
-                    style={{ cursor: isEditing ? "pointer" : "default" }}
-                  >
-                    <p>{currentTask.task.status}</p>
-                  </div>
+  if (!currentTask || !currentTask.task) {
+    return (
+      <Card_load>
+        <Item1__load>
+          <Item1_left_load></Item1_left_load>
+          <Item1_right_load></Item1_right_load>
+        </Item1__load>
+        <Item2__load></Item2__load>
+        <Item3__load></Item3__load>
+      </Card_load>
+    );
+  } else {
+    return (
+      <SPopBrowse>
+        <PopBrowse_container>
+          <PopBrowse_block>
+            <PopBrowse_content>
+              <PopBrowse_topBlock>
+                <PopBrowse_ttl>{currentTask.task.title}</PopBrowse_ttl>
+                <div
+                  className={`categories__theme theme-top ${getThemeClass(currentTask.task.topic)} _active-category`}
+                >
+                  <p className={getThemeClass(currentTask.task.topic)}>
+                    {currentTask.task.topic}
+                  </p>
                 </div>
-              ) : (
-                <div className="status__themes">
-                  {statuses.map((status) => (
-                    <div
-                      key={status}
-                      className={`status__theme ${
-                        editedTask?.status === status ? "_active" : ""
-                      }`}
-                      onClick={() => isEditing && handleStatusChange(status)}
-                      style={{ cursor: isEditing ? "pointer" : "default" }}
-                    >
-                      <p
-                        className={
-                          editedTask?.status === status ? "_active-color" : ""
-                        }
-                      >
-                        {status}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              )}
-              <PopBrowse_wrap>
-                <PopBrowse_form id="formBrowseCard" action="#">
-                  <PopBrowse_form_block>
-                    <label htmlFor="textArea01" className="subttl">
-                      Описание задачи
-                    </label>
-                    <PopBrowse_form_browse__area
-                      name="text"
-                      id="textArea01"
-                      placeholder="Введите описание задачи..."
-                      value={
-                        isEditing
-                          ? editedTask?.description || ""
-                          : currentTask?.task?.description || ""
-                      }
-                      onChange={isEditing ? handleDescriptionChange : undefined}
-                      readOnly={!isEditing}
-                    ></PopBrowse_form_browse__area>
-                  </PopBrowse_form_block>
-                </PopBrowse_form>
-                <div className="pop-new-card__calendar calendar">
-                  <p className="calendar__ttl subttl">Даты</p>
-                  <StyledCalendar
-                    value={date}
-                    onChange={(newDate) => setDate(newDate)}
-                    locale="ru"
-                    formats={{
-                      navigationLabel: (date, locale) => {
-                        const month = new Intl.DateTimeFormat(locale, {
-                          month: "long",
-                        }).format(date);
-                        const year = date.getFullYear();
-                        return `${month} ${year}`;
-                      },
-                    }}
-                  />
-                  <Scalendar__period>
-                    <Scalendar__p>
-                      Срок исполнения: <span>{formatDate(date)}</span>
-                    </Scalendar__p>
-                  </Scalendar__period>
-                </div>
-              </PopBrowse_wrap>
-              <div className="pop-browse__btn-browse ">
+              </PopBrowse_topBlock>
+              <div className="pop-browse__status status">
+                <p className="status__p subttl">Статус</p>
                 {!isEditing ? (
-                  <div className="btn-group">
-                    <button
-                      className="btn-browse__edit _btn-bor _hover03"
-                      onClick={handleEdit}
+                  <div className="status__themes">
+                    <div
+                      className="status__theme _active-color"
+                      style={{ cursor: "default" }}
                     >
-                      Редактировать задачу
-                    </button>
+                      <p>{currentTask.task.status}</p>
+                    </div>
                   </div>
                 ) : (
-                  <div className="btn-group-edit">
-                    <div className="pop-browse__btn-edit">
-                      <button
-                        className="btn-edit__save _btn-bg _hover01"
-                        onClick={updateTask}
-                      >
-                        Сохранить
-                      </button>
-                      <button
-                        className="btn-edit__edit _btn-bor _hover03"
-                        onClick={handleCancelEdit}
-                      >
-                        Отменить
-                      </button>
-                    </div>
+                  <div className="status__themes">
+                    {statuses.map((status) => {
+                      const isSelected = editedTask?.status === status;
+
+                      return (
+                        <div
+                          key={status}
+                          className="status__theme"
+                          onClick={() => handleStatusChange(status)}
+                          style={{
+                            backgroundColor: isSelected
+                              ? "#94a6be"
+                              : "transparent",
+                            color: isSelected ? "#ffffff" : "#333333",
+                          }}
+                        >
+                          <p style={{ margin: 0, lineHeight: "1.2" }}>
+                            {status}
+                          </p>
+                        </div>
+                      );
+                    })}
                   </div>
                 )}
-                <button
-                  className="btn-browse__delete _btn-bor _hover03"
-                  onClick={handleOnClickDel}
-                >
-                  Удалить задачу
-                </button>
-                <Sbtn_browse__close_btn_bg to="/">
-                  Закрыть
-                </Sbtn_browse__close_btn_bg>
+
+                <PopBrowse_wrap>
+                  <PopBrowse_form id="formBrowseCard" action="#">
+                    <PopBrowse_form_block>
+                      <label htmlFor="textArea01" className="subttl">
+                        Описание задачи
+                      </label>
+                      <PopBrowse_form_browse__area
+                        name="text"
+                        id="textArea01"
+                        placeholder="Введите описание задачи..."
+                        value={
+                          isEditing
+                            ? editedTask?.description || ""
+                            : currentTask?.task?.description || ""
+                        }
+                        onChange={
+                          isEditing ? handleDescriptionChange : undefined
+                        }
+                        readOnly={!isEditing}
+                      ></PopBrowse_form_browse__area>
+                    </PopBrowse_form_block>
+                  </PopBrowse_form>
+                  <div className="pop-new-card__calendar calendar">
+                    <p className="calendar__ttl subttl">Даты</p>
+                    <StyledCalendar
+                      value={
+                        isEditing ? editedTask?.date : currentTask.task.date
+                      }
+                      onChange={handleDateChange}
+                      locale="ru"
+                      formats={{
+                        navigationLabel: (date, locale) => {
+                          const month = new Intl.DateTimeFormat(locale, {
+                            month: "long",
+                          }).format(date);
+                          const year = date.getFullYear();
+                          return `${month} ${year}`;
+                        },
+                      }}
+                    />
+                    <Scalendar__period>
+                      <Scalendar__p>
+                        Срок исполнения:{" "}
+                        <span>
+                          {formatDate(
+                            isEditing
+                              ? editedTask?.date || currentTask.task.date
+                              : currentTask.task.date,
+                          )}
+                        </span>
+                      </Scalendar__p>
+                    </Scalendar__period>
+                  </div>
+                </PopBrowse_wrap>
+                <div className="pop-browse__btn-browse ">
+                  {!isEditing ? (
+                    <div className="btn-group">
+                      <button
+                        className="btn-browse__edit _btn-bor _hover03"
+                        onClick={handleEdit}
+                      >
+                        Редактировать задачу
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="btn-group-edit">
+                      <div className="pop-browse__btn-edit">
+                        <button
+                          className="btn-edit__save _btn-bg _hover01"
+                          onClick={updateTask}
+                        >
+                          Сохранить
+                        </button>
+                        <button
+                          className="btn-edit__edit _btn-bor _hover03"
+                          onClick={handleCancelEdit}
+                        >
+                          Отменить
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                  <button
+                    className="btn-browse__delete _btn-bor _hover03"
+                    onClick={handleOnClickDel}
+                  >
+                    Удалить задачу
+                  </button>
+                  <Sbtn_browse__close_btn_bg to="/">
+                    Закрыть
+                  </Sbtn_browse__close_btn_bg>
+                </div>
               </div>
-            </div>
-          </PopBrowse_content>
-        </PopBrowse_block>
-      </PopBrowse_container>
-    </SPopBrowse>
-  );
+            </PopBrowse_content>
+          </PopBrowse_block>
+        </PopBrowse_container>
+      </SPopBrowse>
+    );
+  }
 }

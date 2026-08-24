@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const Sheader__a_main_new = styled(Link)`
-  width: 153px;
+  width: 72px;
   height: 30px;
   border-radius: 4px;
   border: 0.7px solid var(--palette-navy-60, #565eef);
@@ -24,7 +24,7 @@ export const Sheader__a_main_new = styled(Link)`
 export const Sheader__pop_user_set = styled.div`
   position: absolute;
   top: 58px;
-  right: 16px;
+  right: -16px;
   width: 213px;
   height: 205px;
   border-radius: 10px;
@@ -34,6 +34,10 @@ export const Sheader__pop_user_set = styled.div`
   padding: 34px;
   text-align: center;
   z-index: 2;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
   .pop-user-set:target {
     display: block;
@@ -62,6 +66,7 @@ export const Sheader__pop_user_set_theme = styled.div`
   align-items: center;
   justify-content: space-between;
   margin-bottom: 30px;
+  width: 145px;
 
   & p {
     color: #000;

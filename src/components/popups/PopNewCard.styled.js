@@ -204,54 +204,11 @@ export const Scalendar__ttl = styled.div`
   }
 `;
 
-export const Scalendar__block = styled.div`
-  display: block;
-`;
-
-export const Scalendar__nav = styled.div`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 14px;
-  padding: 0 7px;
-
-  @media screen and (max-width: 660px) {
-    padding: 0;
-  }
-`;
-
-export const Scalendar__month = styled.div`
-  color: #94a6be;
-  font-size: 14px;
-  line-height: 25px;
-  font-weight: 600;
-`;
-
 export const Scalendar__period = styled.div`
   padding: 0 7px;
 
   @media screen and (max-width: 660px) {
     padding: 0;
-  }
-`;
-
-export const Snav__actions = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
-
-export const Snav__action = styled.div`
-  width: 18px;
-  height: 25px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  & svg {
-    fill: #94a6be;
   }
 `;
 
@@ -287,8 +244,46 @@ export const Scategories__themes = styled.div`
   }
 `;
 
-export const Sactive_category = styled.div`
-  opacity: 1 !important;
+export const Scategories__theme_orange = styled.button`
+  display: inline-block;
+  width: auto;
+  height: 30px;
+  padding: 8px 20px;
+  border-radius: 24px;
+  margin-right: 7px;
+  background-color: #ffe4c2;
+  color: #ff6d00;
+  opacity: ${(props) => (props.$active ? 1 : 0.4)};
+  border: ${(props) => (props.$active ? "none" : "1px solid transparent")};
+  transition: opacity 0.2s;
+`;
+
+export const Scategories__theme_green = styled.button`
+  display: inline-block;
+  width: auto;
+  height: 30px;
+  padding: 8px 20px;
+  border-radius: 24px;
+  margin-right: 7px;
+  background-color: #b4fdd1;
+  color: #06b16e;
+  opacity: ${(props) => (props.$active ? 1 : 0.4)};
+  border: ${(props) => (props.$active ? "none" : "1px solid transparent")};
+  transition: opacity 0.2s;
+`;
+
+export const Scategories__theme_purple = styled.button`
+  display: inline-block;
+  width: auto;
+  height: 30px;
+  padding: 8px 20px;
+  border-radius: 24px;
+  margin-right: 7px;
+  background-color: #e9d4ff;
+  color: #9a48f1;
+  opacity: ${(props) => (props.$active ? 1 : 0.4)};
+  border: ${(props) => (props.$active ? "none" : "1px solid transparent")};
+  transition: opacity 0.2s;
 `;
 
 export const Sform_new__create = styled.button`
